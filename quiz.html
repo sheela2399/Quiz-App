@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <nav class="quiz-start-nav dis-row-between">
+            <div><img src="assests/techpaathshala_logo.png" alt="logo"></div>
+            <div class="user-info">
+                    <span id="userName" class="user-name"></span>
+                    <img class="Avatar" src="assests/Avatar.png" alt="" onclick="confirmLogout()">
+                <br>
+                <div id="confirmLogoutOptionDiv">
+                    <div class="confirm dis-col-center">
+                        <span id="userNameDisplay"></span>
+                        <span id="userEmailDisplay"></span>
+                        <button class="logout-button btn-primary" onclick="logout()">Logout</button>
+                        <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="quiz-main-container">
+        <div class="quiz-top">
+            <h2 class="heading">Let's Start the Quiz</h2>
+            <i class="fa-regular fa-clock"></i> <span> 10 min</span>
+            <ul>
+                <li>Disclaimer</li>
+                <li>Disclaimer</li>
+            </ul>
+        </div>
+
+        <div class="catchy-intro dis-col-center">
+            <div class="catchy-img">
+                <img src="assests/Frame 1000009886.png" alt="">
+            </div>
+            <div class="catchy-content dis-col-center">
+                <h2 class="heading">Challenge Your Mind - Compete in the Quiz Club</h2>
+                <p class="grey-text">Welcome to this esteemed platform where brilliance collides with knowledge.
+                </p>
+                <p class="grey-text">When you’re done, review your answers and See your rank.</p>
+            </div>
+            <div class=" start-btn-div dis-row-center">
+                <a href="question.html"><button class="btn btn-primary" type="submit"
+                        onsubmit="appendQuestion(quizQuestions)">Start Quiz</button></a>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign UP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="signup-container dis-row-even w-100">
+        <div class="left dis-col-center">
+            <img src="assests/signup.png" alt="thinking_img">
+        </div>
+
+        <div class="right dis-col-center">
+            <form action="" method="" onsubmit="return false" class="login_form" name="signupForm" id="signupForm">
+                <div class="first-row">
+                    <h2 class="heading">Signup</h2>
+                    <p class="text-medium grey-text">Sign Up to join</p>
+                </div>
+                <div class="first-row email">
+                    <label for="fullName" class="input-label">Full Name<span class="text-red">*</span></label> <br>
+                    <input type="text" id="fullName" name="fullName" placeholder="Full Name" >
+                    <br><span id="invalid-msg-fullname" class="invalid-msg"></span>
+                </div>
+
+                <div class="first-row email">
+                    <label for="email" class="input-label">Email ID<span class="text-red">*</span></label> <br>
+                    <input type="email" id="email" name="email" placeholder="xyz12@gmail.com">
+                    <br><span id="invalid-msg-email" class="invalid-msg"></span>
+                </div>
+                <div class="first-row password">
+                    <label for="password" class="input-label">Password<span class="text-red">*</span></label><br>
+                   <span class="forshowpass"><input type="password" id="password" name="password" placeholder="Password"><i class="fa-regular fa-eye-slash" onclick="passwordHideShow()" id="Show-password"></i></span>
+                    <br><span id="invalid-msg-password" class="invalid-msg"></span>
+                </div>
+                <div class="terms">
+                    <span>
+                      <input type="checkbox" id="terms">
+                    <label name ="terms">I accept <a href="#" class="text-blue">Terms & conditions</a></label>
+                </span></div>
+                <button class="btn btn-primary" id="submit-button" onclick="validateSignup()" > Signup </button>
+                <div class="first-row">
+                    <span id="invalid-msg-submit" class="invalid-msg"></span>
+                </div>
+                <div class="link-google dis-row-center">
+                    <img src="assests/devicon_google.png" alt="google-logo"> <a href="">Sign up with Google</a>
+                </div>
+                <p class=" link-account grey-text dis-row-center">Have an account? <a class="text-blue"
+                        href="login.html">Log in ?</a></p>
+            </form>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+
+</html>

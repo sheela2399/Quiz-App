@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="main-container dis-row-center">
+        <div class="login-container dis-row-even w-100">
+            <div class="left dis-col-center">
+                <img src="assests/login.png" alt="thinking_img">
+            </div>
+
+            <div class="right dis-col-center">
+                <form action="" method="" onsubmit="return false" class="login_form" id="loginForm" name="loginForm">
+                    <div class="first-row">
+                        <h2 class="heading">Login</h2>
+                        <p class="text-medium grey-text">Please enter your details below.</p>
+                    </div>
+                    <div class="first-row email">
+                        <label for="email" class="input-label">Email ID<span class="text-red">*</span></label> <br>
+                        <input type="email" id="email" name="email" placeholder="xyz12@gmail.com">
+                        <br><span id="invalid-email" class="invalid-msg"></span>
+                    </div>
+                    <div class="first-row password">
+                        <label for="password" class="input-label">Password<span class="text-red">*</span></label><br>
+                        <span class="forshowpass"><input type="password" id="password" name="password"
+                                placeholder="Password"><i class="fa-regular fa-eye-slash" onclick="passwordHideShow()"
+                                id="Show-password"></i></span>
+                        <br><span id="invalid-password" class="invalid-msg"></span>
+                    </div>
+                    <button class="btn btn-primary" id="login-submit-btn" type="submit"
+                        onclick="validateLogin()">Login</button>
+                    <div>
+                        <br><span id="invalid-msg-submit" class="invalid-msg"></span>
+                    </div>
+                    <div class="link-google dis-row-center"><img src="assests/devicon_google.png" alt="google-logo"> <a
+                            href="">Sign up with Google</a></div>
+                    <p class=" link-account grey-text dis-row-center">Don't have an account? <a class="text-blue"
+                            href="signup.html">Sign up ?</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
