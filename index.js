@@ -92,6 +92,7 @@ function passwordHideShow() {
 }
 // signup code ends..
 
+
 // login code start...
 function validateLogin() {
     const email = document.getElementById('email').value;
@@ -123,9 +124,10 @@ function validateLogin() {
     else if (user.password !== password) {
         invalidMsgPassword.innerHTML = "Incorrect password";
         return;
-    }
+    } 
 
     else {
+        // adminLoginValidation(email,password)
         // If login is successful
         invalidMsgEmail.innerHTML = `<i class="fa-regular fa-circle-check"></i>`;
         invalidMsgPassword.innerHTML = `<i class="fa-regular fa-circle-check"></i>`;
@@ -173,9 +175,9 @@ function displayUserName() {
 displayUserName()
 
 // function to handle logout Alert
+
 let logoutDiv = document.getElementById("confirmLogoutOptionDiv");
 let flag = 0;
-
 function confirmLogout() {
     if (flag == 1) {
         logoutDiv.style.display = "none";

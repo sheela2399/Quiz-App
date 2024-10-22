@@ -1,0 +1,24 @@
+/* admin panel start*/
+.main-div{
+    height: 90vh;
+    background-color: #f1e1a6;
+}
+
+.left-part{
+    width: 20%;
+    padding: 30px;
+    border-right: 2px solid #E8BE21;
+}
+
+.left-part h2, .right-part h1{
+    color: #E8BE21;
+}
+
+.left-part .item{
+ margin: 10px;
+}
+
+.right-part{
+    width: 80%;
+    padding: 20px;
+}
