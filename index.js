@@ -164,15 +164,15 @@ function getUserInitials() {
 }
 
 // Function to display the user's name or initials near the logo
-function displayUserName() {
-    if (testUser.fullName) {
-        const userNameElement = document.getElementById("userName");
-        const initials = getUserInitials(testUser.fullName);
-        userNameElement.innerHTML = `Welcome, ${initials}`
-        // userNameElement.innerHTML = `Welcome, ${testUser.fullName.toUpperCase()}`
-    }
-}
-displayUserName()
+// function displayUserName() {
+//     if (testUser.fullName) {
+//         const userNameElement = document.getElementById("userName");
+//         const initials = getUserInitials(testUser.fullName);
+//         userNameElement.innerHTML = `Welcome, ${initials}`
+//         // userNameElement.innerHTML = `Welcome, ${testUser.fullName.toUpperCase()}`
+//     }
+// }
+// displayUserName()
 
 // function to handle logout Alert
 

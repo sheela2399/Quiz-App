@@ -1,24 +1,147 @@
 /* admin panel start*/
-.main-div{
+/* admin home page starts...*/
+.main-div {
     height: 90vh;
     background-color: #f1e1a6;
 }
 
-.left-part{
+.left-part {
     width: 20%;
     padding: 30px;
     border-right: 2px solid #E8BE21;
+    border-radius: 5px;
 }
 
-.left-part h2, .right-part h1{
+.left-part h2,
+.right-part h1 {
     color: #E8BE21;
 }
 
-.left-part .item{
- margin: 10px;
+.left-part .item {
+    margin: 10px;
 }
 
-.right-part{
+.right-part {
     width: 80%;
     padding: 20px;
+    border-radius: 5px;
 }
+
+/* quizzes page starts */
+.right-part h2 {
+    padding: 8px;
+    border-bottom: 2px solid grey;
+}
+
+.right-part .btn-primary {
+    width: 250px;
+    margin: 20px 20px 20px 670px;
+    /* margin-top: 20px; */
+}
+
+.right-part .quiz-table {
+    width: 900px;
+}
+
+ thead {
+    background-color: rgb(204, 213, 221);
+}
+
+.quiz-table > thead{
+    padding: 10px;
+    border: 2px solid rgb(141, 192, 237);
+    width: 800px;
+}
+
+thead th,
+tbody td{
+    width: 222px;
+    text-align: center;  
+    border: 2px solid rgb(204, 213, 221);
+}
+
+.fa-eye {
+    color: blue;
+}
+
+.fa-pencil {
+    color: green;
+}
+
+.fa-trash {
+    color: red;
+}
+
+td > i {
+    margin:3px 0;
+    padding: 10px;
+    font-size: large;
+    border-radius: 5px;  
+    cursor: pointer;  
+}
+
+/* add Question form start */
+.addQues{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-popup {
+    height: 100vh ;
+    width: 500px;
+    display: none;
+    position: absolute;
+    bottom: 0;
+    top: 10px;
+    right: 150px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+  
+  .form-container {
+    width: 500px;
+    padding: 10px;
+    background-color: white;
+  }
+
+  .red-text{
+    color: red;
+  }
+  
+  .form-container{
+    width: 500px;
+  }
+
+  .form-container input[type=text], select {
+    width: 450px;
+    padding: 15px;
+    font-size: large;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  .form-container input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  .form-container .btn-primary {
+    background-color: #E8BE21;
+    color: white;
+    width: 30%;
+    border-radius: 5px; 
+    margin: 0 auto;
+    cursor: pointer;
+ }
+  
+  .form-container .cancel {
+    background-color: white;
+    border: none;
+    margin-right: 5px;
+  }
+  
+  .form-container .btn-primary:hover, .open-button:hover {
+    opacity: 1;
+  }
+  

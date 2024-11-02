@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User-list</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/AdminPanel/style/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
@@ -16,12 +16,12 @@
         <div class="quiz-start-nav dis-row-between">
             <div>
                 <a href="https://techpaathshala.com/">
-                    <img src="assests/techpaathshala_logo.png" alt="logo">
+                    <img src="/AdminPanel/assets/techpaathshala_logo.png" alt="logo">
                 </a>
             </div>
             <div class="user-info">
-                <span id="userName" class="user-name">Admin</span>
-                <img class="Avatar" src="assests/Avatar.png" alt="" onclick="confirmLogout()">
+                <span  class="user-name">Admin</span>
+                <i class="fa-solid fa-user-tie" onclick="confirmLogout()"></i>
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
@@ -53,8 +53,7 @@
             </ul>
         </div>
         <div class="right-part dis-col-center">
-            <h1></h1>
-            <table>
+            <table class="user-table dis-col-center">
                 <thead>
                     <tr>
                         <th>Sr. No.</th>
@@ -66,23 +65,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <tr>
-                        <td>1</td>
-                        <td>Sheela Mishra</td>
-                        <td>sheelamishra1999@gmail.com</td>
-                        <td>18</td>
-                        <td>view Tests</td>
-                    </tr> -->
-                </tbody>
+                <tr> 
+                    <td class="sr.no."> 1</td>
+                    <td class="question-"> Gghjh</td>
+                    <td class="actions"> </td>
+                    <td> jhhgffgd@ghm</td>
+                    <td> 41</td>
+                    <td><a href="View More"></a> </td>
+                </tr>
+            </tbody>
             </table>
+            
         </div>
-    </div>
+    </div> 
 
     <div class="user-table">
         
     </div>
-    <script src="index.js"></script>
-    <script src="admin.js"></script>
+    <script src="/index.js"></script>
+    <script src="/AdminPanel/style/admin.css"></script>
 
 </body>
 </html>

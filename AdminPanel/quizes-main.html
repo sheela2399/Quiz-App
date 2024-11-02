@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz-Main</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="/AdminPanel/style/admin.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <header>
         <div class="quiz-start-nav dis-row-between">
             <div>
                 <a href="https://techpaathshala.com/">
-                    <img src="assests/techpaathshala_logo.png" alt="logo">
+                    <img src="/AdminPanel/assets/techpaathshala_logo.png" alt="logo">
                 </a>
             </div>
             <div class="user-info">
-                <span id="userName" class="user-name"></span>
-                <img class="Avatar" src="assests/Avatar.png" alt="" onclick="confirmLogout()">
+                <span class="user-name">Admin</span>
+                <i class="fa-solid fa-user-tie" onclick="confirmLogout()"></i>
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
-                        <span id="userNameDisplay"></span>
+                        <span id="userNameDisplay">Admin</span>
                         <span id="userEmailDisplay"></span>
                         <button class="logout-button btn-primary" onclick="logout()">Logout</button>
                         <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
@@ -34,7 +36,102 @@
             </div>
         </div>
     </header>
-    <script src="index.js"></script>
-    <script src="admin.js"></script>
+    <main>
+        <div class="main-div dis-row-between">
+            <div class="left-part">
+                <h2>Menu</h2>
+                <ul id="menu">
+                    <li class="item">
+                        <i class="fa-solid fa-house"></i>
+                        <a href="admin.html">Home</a>
+                    </li>
+                    <li class="item">
+                        <i class="fa-regular fa-user"></i>
+                        <a href="userlist.html">Users</a>
+                    </li>
+                    <li class="item">
+                        <i class="fa-regular fa-circle-question"></i>
+                        <a href="quizes-main.html">Quizzes</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-part">
+                <h2>MCQ Question Lists</h2>
+                <button class="btn-primary open-button" onclick="openForm()">Add New Questions</button>
+                <table class="quiz-table dis-col-center">
+                    <thead>
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Questions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="question-table">
+                        <!-- <tr>
+                            <td class="sr.no."> 1</td>
+                            <td class="question-"> Gghjhisidksjjskjksdwdwwwwwwwwwwwwwwww</td>
+                            <td class="actions">
+                                <i class="fa-solid fa-eye"></i>
+                                <i class="fa-solid fa-pencil"></i>
+                                <i class="fa-solid fa-trash"></i>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="form-popup" id="addQuesForm">
+        <form class="form-container" onsubmit="addQuestion()">
+            <div class="dis-row-between">
+                <h2>Create Question</h2>
+                <button type="button" class="btn cancel" onclick="closeForm()"> X </button>
+            </div>
+            <br>
+            <div class="addQues">
+                <label for="question"><b>Question</b> <span class="red-text">*</span></label>
+                <input type="text" name="question" id="question" required>
+
+                <label for="Option1"><b>Option 1</b> <span class="red-text">*</span></label>
+                <input type="text" name="Option1" id="Option1" required>
+
+                <label for="Option2"><b>Option 2</b> <span class="red-text">*</span></label>
+                <input type="text" name="Option2" id="Option2" required>
+
+                <label for="Option3"><b>Option 3</b> <span class="red-text">*</span></label>
+                <input type="text" name="Option3" id="Option3" required>
+
+                <label for="Option4"><b>Option 4</b> <span class="red-text">*</span></label>
+                <input type="text" name="Option4" id="Option4" required>
+
+                <label for="correctOption"><b>correct Option</b> <span class="red-text">*</span></label>
+                <select type="text" name="correctOption" id="correctOption" required>
+                    <option value="Option 1">Option 1</option>
+                    <option value="Option 2">Option 2</option>
+                    <option value="Option 3">Option 3</option>
+                    <option value="Option 4">Option 4</option>
+
+                    </select>
+
+                <button type="submit" class="btn-primary" onclick="addQuestion()">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="viewMcq">
+      <!-- question, option , right ans -->
+    </div>
+
+    <div class="editMcq">
+<!--  -->
+    </div>
+
+    <script src="/index.js"></script>
+    <script src="/AdminPanel/script/admin.js"></script>
+    <script> window.onload = questiontable()</script>
+    <!-- <script>confirmLogout(), validateLogin()</script> -->
+
 </body>
+
 </html>
