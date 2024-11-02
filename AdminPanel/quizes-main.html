@@ -57,8 +57,8 @@
             </div>
             <div class="right-part">
                 <h2>MCQ Question Lists</h2>
-                <button class="btn-primary open-button" onclick="openForm(event)">Add New Questions</button>
-                <table class="quiz-table dis-col-center">
+                <button class="btn-primary open-button" onclick="openForm()">Add New Questions</button>
+                <table class="quiz-table dis-col-center" id="question-table-main">
                     <thead>
                         <tr>
                             <th>Sr.No.</th>
@@ -67,15 +67,7 @@
                         </tr>
                     </thead>
                     <tbody id="question-table">
-                        <!-- <tr>
-                            <td class="sr.no."> 1</td>
-                            <td class="question-"> Gghjhisidksjjskjksdwdwwwwwwwwwwwwwwww</td>
-                            <td class="actions">
-                                <i class="fa-solid fa-eye"></i>
-                                <i class="fa-solid fa-pencil"></i>
-                                <i class="fa-solid fa-trash"></i>
-                            </td>
-                        </tr> -->
+                       <!-- Table content -->
                     </tbody>
                 </table>
             </div>
@@ -86,7 +78,7 @@
         <form class="form-container" onsubmit="addQuestion(event)">
             <div class="dis-row-between">
                 <h2>Create Question</h2>
-                <button type="button" class="btn cancel" onclick="closeForm(event)"> X </button>
+                <button type="button" class="btn cancel" onclick="closeForm()"> X </button>
             </div>
             <br>
             <div class="addQues">
@@ -129,7 +121,7 @@
 
     <script src="/index.js"></script>
     <script src="/AdminPanel/script/admin.js"></script>
-    <!-- <script> window.onload = questiontable()</script> -->
+    <script> window.onload = questiontable()</script>
     <!-- <script>confirmLogout(), validateLogin()</script> -->
 
 </body>
