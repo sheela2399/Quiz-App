@@ -57,7 +57,7 @@
             </div>
             <div class="right-part">
                 <h2>MCQ Question Lists</h2>
-                <button class="btn-primary open-button" onclick="openForm()">Add New Questions</button>
+                <button class="btn-primary open-button" onclick="openForm(event)">Add New Questions</button>
                 <table class="quiz-table dis-col-center">
                     <thead>
                         <tr>
@@ -83,10 +83,10 @@
     </main>
 
     <div class="form-popup" id="addQuesForm">
-        <form class="form-container" onsubmit="addQuestion()">
+        <form class="form-container" onsubmit="addQuestion(event)">
             <div class="dis-row-between">
                 <h2>Create Question</h2>
-                <button type="button" class="btn cancel" onclick="closeForm()"> X </button>
+                <button type="button" class="btn cancel" onclick="closeForm(event)"> X </button>
             </div>
             <br>
             <div class="addQues">
@@ -114,7 +114,7 @@
 
                     </select>
 
-                <button type="submit" class="btn-primary" onclick="addQuestion()">Submit</button>
+                <button type="submit" class="btn-primary">Submit</button>
             </div>
         </form>
     </div>
@@ -129,7 +129,7 @@
 
     <script src="/index.js"></script>
     <script src="/AdminPanel/script/admin.js"></script>
-    <script> window.onload = questiontable()</script>
+    <!-- <script> window.onload = questiontable()</script> -->
     <!-- <script>confirmLogout(), validateLogin()</script> -->
 
 </body>
