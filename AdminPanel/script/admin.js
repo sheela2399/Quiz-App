@@ -18,8 +18,38 @@ let admin_credential = {
 //     }
 // }
 
+function questiontable(quizQuestions) {
+    localStorage.getItem(JSON.stringify("quizQuestions")) || []
+    console.log(quizQuestions)
+
+    let table = document.getElementById("question-table");
+    table.innerHTML = "";
+
+    quizQuestions.forEach((quiz, index) => {
+        let tr = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        td1.innerHTML = index + 1;
+
+        let td2 = document.createElement("td");
+        td2.innerHTML = quiz.question;
+
+        let td3 = document.createElement("td");
+        td3.innerHTML = `
+            <i class="fa-solid fa-eye" onclick="viewMCQ(${index})"></i>
+            <i class="fa-solid fa-pencil" onclick="editMCQ(${index})"></i>
+            <i class="fa-solid fa-trash" onclick="deleteMCQ(this, ${index})"></i>
+        `;
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        table.appendChild(tr);
+    });
+}
+
 // functions for add new question part..
-function openForm(event) {
+function openForm() {
     document.getElementById("addQuesForm").style.display = "block";
 }
 
@@ -28,7 +58,6 @@ function closeForm() {
 }
 
 function addQuestion(event) {
-    
     event.preventDefault();
 
     let question = document.getElementById('question').value;
@@ -42,72 +71,20 @@ function addQuestion(event) {
     let createdQuiz = {
         question: question,
         options: [{value:option1}, {value:option2}, {value:option3}, {value :option4}],
-        rightAns: correctOption
+        rightAns: correctOption,
     };
-
     quizQuestions.push(createdQuiz);
 
     // Save the updated quizQuestions array to localStorage
     localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
-    console.log(quizQuestions)
-
+    console.log(quizQuestions);
     questiontable();
 }
 
-function questiontable() {
-    localStorage.getItem(JSON.stringify("quizQuestions")) || []
-    console.log(quizQuestions)
 
-    for (let index = 0; index < quizQuestions.length; index++) {
-        let table = document.getElementById("question-table")
-        let tr = document.createElement("tr")
-        let td1 = document.createElement('td');
-        let td2 = document.createElement('td');
-        let td3 = document.createElement('td')
 
-        tr.appendChild(td1), tr.appendChild(td2), tr.appendChild(td3)
-        table.appendChild(tr);
-        // console.log(tr, td1, td2)
-
-        td1.innerHTML = [index + 1];
-        td2.innerHTML = quizQuestions[index].question;
-        td3.innerHTML = `<i class="fa-solid fa-eye" onclick ="viewMCQ(index)"></i><i class="fa-solid fa-pencil" onclick ="editMCQ()"></i><i class="fa-solid fa-trash" onclick = "deleteMCQ(this)"></i>`
-    }
-}
 
 // Function for Actions in Question Table....
-function viewMCQ(index) {
-    console.log("view")
-
-    // Retrieve the data from localStorage
-    JSON.parse(localStorage.getItem('quizQuestions'));
-
-    // Check if quiz data exists
-    if (!quizQuestions) {
-        console.log("No quiz data found.");
-        return;
-    }
-
-    // Find the question with the specified questionId
-    const question = quizQuestions.find(q => q.index === index);
-    console.log(question)
-    // If question is found, display it
-    if (question) {
-        console.log("Question:", question.text);
-        console.log("Options:");
-
-        // Loop through each option
-        question.options.forEach((option, index) => {
-            console.log(`Option ${index + 1}: ${option}`);
-        });
-
-        // Display the correct answer
-        console.log("Correct Answer:", question.correctAnswer);
-    } else {
-        console.log("Question not found.");
-    }
-}
-
 function editMCQ() {
     console.log("edit")
 
@@ -144,8 +121,65 @@ function resetSerialNumbers() {
     });
 }
 
+function viewMCQ(index) {
+    const quizQuestions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
+    const question = quizQuestions[index];
+    
+    if (question) {
 
+        let viewDiv = document.querySelector('.viewMcq');
+        viewDiv.innerHTML = `
+       <div class="dis-row-between"><h3>View Question</h3><button onclick="closeView()"> X </button></div>
+        <p><strong>Question:</strong> ${question.question}</p>
+        <p><strong>Options:</strong></p>
+        <ul>
+        <li>1.${question.options[0].value}</li>
+        <li>2.${question.options[1].value}</li>
+        <li>3.${question.options[2].value}</li>
+        <li>4.${question.options[3].value}</li>
+        </ul>
+        <p><strong>Correct Answer:</strong> ${question.rightAns}</p> 
+        `;
+        viewDiv.style.display = "block";
+        
+    } else {
+        alert("Question not found.");
+    }
+}
 
+function closeView() {
+    let viewDiv = document.querySelector('.viewMcq');
+    viewDiv.innerHTML = "";
+    viewDiv.style.display = "none";
+}
+
+// function for dynamic correct option dropdown..
+function updateCorrectOptionDropdown() {
+    const correctOptionSelect = document.getElementById('correctOption');
+    correctOptionSelect.innerHTML = ""; 
+
+    const option1 = document.getElementById('Option1').value;
+    const option2 = document.getElementById('Option2').value;
+    const option3 = document.getElementById('Option3').value;
+    const option4 = document.getElementById('Option4').value;
+
+    const options = [option1, option2, option3, option4];
+
+    // Populate the dropdown with non-empty options
+    options.forEach((optionText) => {
+        if (optionText.trim()) {
+            const optionElement = document.createElement('option');
+            optionElement.value = optionText;
+            optionElement.textContent = `${optionText}`;
+            correctOptionSelect.appendChild(optionElement);
+        }
+    });
+}
+
+// Attach input event listeners to each option input field to update the dropdown in real-time
+['Option1', 'Option2', 'Option3', 'Option4'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCorrectOptionDropdown);
+});
 
 
 
