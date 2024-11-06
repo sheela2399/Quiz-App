@@ -364,6 +364,8 @@ let quizQuestions = [
     }
 ];
 
+quizQuestions = JSON.parse(localStorage.getItem('quizQuestions')) || [];
+// console.log(quiz)
 localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
 
 let score = 0;
