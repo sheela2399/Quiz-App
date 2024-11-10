@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <header>
         <div class="quiz-start-nav dis-row-between">
@@ -20,8 +22,8 @@
                 </a>
             </div>
             <div class="user-info">
-                <span  class="user-name">Admin</span>
-                <i class="fa-solid fa-user-tie" onclick="confirmLogout()"></i>
+                <span class="user-name">Admin</span>
+                <i class="fa-solid fa-user-tie" onclick="confirmLog()"></i>
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
@@ -53,7 +55,7 @@
             </ul>
         </div>
         <div class="right-part dis-col-center">
-            <table class="user-table dis-col-center">
+            <table class="user-table" id="user-table-main">
                 <thead>
                     <tr>
                         <th>Sr. No.</th>
@@ -65,15 +67,37 @@
                     </tr>
                 </thead>
                 <tbody id="user-table">
-                
-            </tbody>
+                    <!-- user table content -->
+                </tbody>
             </table>
-            
         </div>
-    </div> 
+    </div>
 
- <script src="/index.js"></script>
+    <div id="testDetailsDiv" class="form-popup">
+        <div class=" userHeading dis-row-between">
+            <h2 id="userHeading"></h2>
+            <button onclick="closeTable()"> X </button>
+        </div>
+        <table class="testDetailsTable">
+            <thead>
+                <tr>
+                    <th>Test No.</th>
+                    <th>Test date</th>
+                    <th>Score</th>
+                    <th>Correct Ans</th>
+                    <th>View Test</th>
+                </tr>
+            </thead>
+            <tbody id="userTestDetailsMain">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="/index.js"></script>
     <script src="/AdminPanel/script/admin.js"></script>
 
 </body>
+
 </html>

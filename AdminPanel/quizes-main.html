@@ -23,7 +23,7 @@
             </div>
             <div class="user-info">
                 <span class="user-name">Admin</span>
-                <i class="fa-solid fa-user-tie" onclick="confirmLogout()"></i>
+                <i class="fa-solid fa-user-tie" onclick="confirmLog()"></i>
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
@@ -58,7 +58,8 @@
             <div class="right-part">
                 <h2>MCQ Question Lists</h2>
                 <button class="btn-primary open-button" onclick="openForm()">Add New Questions</button>
-                <table class="quiz-table dis-col-center" id="question-table-main">
+                
+                <table class="quiz-table" id="question-table-main">
                     <thead>
                         <tr>
                             <th>Sr.No.</th>
@@ -110,19 +111,13 @@
         </form>
     </div>
 
-    <div class="viewMcq" id ="viewMcq">
-       <!-- question, option , right ans  -->
-     </div> 
+    <div class="viewMcq">
 
-    <div class="editMcq">
-<!--  -->
     </div>
 
     <script src="/index.js"></script>
     <script src="/AdminPanel/script/admin.js"></script>
-    <script> window.onload = questiontable(quizQuestions)</script>
-    <!-- <script>confirmLogout(), validateLogin()</script> -->
-
+    <!-- <script> window.onload = questiontable(quizQuestions)</script> -->
 </body>
 
 </html>

@@ -18,13 +18,13 @@ function validateSignup() {
     let invalidMsgFullName = document.getElementById("invalid-msg-fullname");
     let invalidMsgPassword = document.getElementById("invalid-msg-password");
     let invalidMsgEmail = document.getElementById("invalid-msg-email");
-    let reName = /^[a-zA-Z].*[\s\.]*$/g ;
+    let reName = /^[a-zA-Z].*[\s\.]*$/g;
     let reEmail = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
     let rePass = /^(?=.*\d)(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹])(?=.*[a-z])(?=.*[A-Z]).{5,15}$/;
     let checkbox = document.getElementById("terms").checked
 
     if (fullName == "" || !reName.test(fullName)) {
-        invalidMsgFullName.innerHTML = "Enter a Name";  
+        invalidMsgFullName.innerHTML = "Enter a Name";
         return false;
     }
     // else {
@@ -46,7 +46,7 @@ function validateSignup() {
     // else if (rePass.test(password)) {
     //     invalidMsgPassword.innerHTML = `<i class="fa-regular fa-circle-check"></i>`;
     // }
-    if(!checkbox){
+    if (!checkbox) {
         alert("Please check terms and condition")
         return false;
     }
@@ -124,7 +124,7 @@ function validateLogin() {
     else if (user.password !== password) {
         invalidMsgPassword.innerHTML = "Incorrect password";
         return;
-    } 
+    }
 
     else {
         // adminLoginValidation(email,password)
@@ -164,21 +164,22 @@ function getUserInitials() {
 }
 
 // Function to display the user's name or initials near the logo
-// function displayUserName() {
-//     if (testUser.fullName) {
-//         const userNameElement = document.getElementById("userName");
-//         const initials = getUserInitials(testUser.fullName);
-//         userNameElement.innerHTML = `Welcome, ${initials}`
-//         // userNameElement.innerHTML = `Welcome, ${testUser.fullName.toUpperCase()}`
-//     }
-// }
-// displayUserName()
+function displayUserName() {
+    if (testUser.fullName) {
+        const userNameElement = document.getElementById("userName");
+        const initials = getUserInitials(testUser.fullName);
+        userNameElement.innerHTML = `Welcome, ${initials}`
+        // userNameElement.innerHTML = `Welcome, ${testUser.fullName.toUpperCase()}`
+    }
+}
+displayUserName()
 
 // function to handle logout Alert
 
 let logoutDiv = document.getElementById("confirmLogoutOptionDiv");
 let flag = 0;
 function confirmLogout() {
+      
     if (flag == 1) {
         logoutDiv.style.display = "none";
         // document.querySelector(".user-info").style.flexDirection = "column";
@@ -201,9 +202,9 @@ function logout() {
 // Function to take image input
 let editOption = document.getElementsByClassName("edit-button")
 let AvatarPic = document.getElementById("AvatarPic")
-function editPic(){
-   console.log(editOption, AvatarPic) 
-//    personalAccount = document.querySelector(".account-img");
+function editPic() {
+    console.log(editOption, AvatarPic)
+    //    personalAccount = document.querySelector(".account-img");
 
 }
 
@@ -383,6 +384,7 @@ const optionElement = document.getElementById("options");
 const nextButton = document.getElementById("nextquestion");
 const previousButton = document.getElementById("previousquestion");
 const displayScore = document.getElementById("displayScore");
+let quizStartTime;
 
 // Fetch the quiz questions from localStorage
 const fetchQuize = (localStorage.getItem("quizQuestions"));
@@ -401,6 +403,12 @@ function getRandomIndex() {
 for (let i = 0; i < totalQuestions; i++) {
     const randomIndex = getRandomIndex();
     randomQuestion.push(quizQuestions[randomIndex]);
+}
+
+// function to start quiz that will update count and recort start time..
+function startQuiz(){
+    updatePlayCount();
+    quizStartTime = new Date();
 }
 
 // Function to display a question
@@ -528,17 +536,21 @@ function previousQuestion() {
 
 // Function to submit the quiz and calculate the score
 function submitQuiz() {
+    const quizEndTime = new Date();
+    const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime);
     let confirmAlert = confirm("Are you sure want to submit the quiz?");
+    
     if (confirmAlert) {
         updateScore();
         // let userLogedIn = JSON.parse(localStorage.getItem('isLoggedin'));
         // let testUser = userLogedIn;
-
+        
         const userScore = {
             testUserName: testUser.fullName,
             testUserEmail: testUser.email,
             score: score,
-            selectedQuiz: [randomQuestion],
+            selectedQuiz: randomQuestion,
+            playCount: 0
         };
 
         let storedScores = JSON.parse(localStorage.getItem('userScores')) || [];
@@ -550,6 +562,31 @@ function submitQuiz() {
         window.location.href = "leaderboard.html";
     }
 }
+
+function updatePlayCount() {
+    const users = JSON.parse(localStorage.getItem("userScores")) || [];
+    const loggedInUser = localStorage.getItem("isLoggedin");
+    
+    if (loggedInUser && loggedInUser.email) {
+        const loggedInEmail = loggedInUser.email;  // Correctly get email from logged-in user data
+        const userIndex = users.findIndex((user) => user.testUserEmail === loggedInEmail);  // Use the correct property for email in userScore
+        
+        if (userIndex !== -1) {
+            
+            users[userIndex].playCount = (users[userIndex].playCount || 0) + 1;
+            localStorage.setItem("userScores", JSON.stringify(users));  // Save updated scores back to localStorage
+        }
+    }
+}
+     
+// function to calculate time
+function calculateTimeTaken(startTime, endTime) {
+    const timeDiff = Math.floor((endTime - startTime) / 1000); // Time difference in seconds
+    const minutes = Math.floor(timeDiff / 60);
+    const seconds = timeDiff % 60;
+    console.log(timeDiff);
+    return `${minutes} minutes and ${seconds} seconds`;
+  }
 
 // Function to show top 6 leaderboard
 function showLeaderboard() {
@@ -617,7 +654,6 @@ function rankDisplay() {
 // Initial call to display the first question
 displayQuestion();
 
-
 document.addEventListener("DOMContentLoaded", function () {
     let userLoggedIn = JSON.parse(localStorage.getItem('isLoggedin'));
 
@@ -627,5 +663,11 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "index.html";
     }
 });
+
+if(userNameElement || userNameDisplay || userEmailDisplay || admin_credential || testUser){
+    confirmLogout();
+    displayUserName();
+    adminLoginValidation();
+}
 
 
