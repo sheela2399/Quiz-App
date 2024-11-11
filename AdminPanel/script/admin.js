@@ -77,6 +77,7 @@ function addQuestion(event) {
     let option3 = document.getElementById('Option3').value;
     let option4 = document.getElementById('Option4').value;
     let correctOption = document.getElementById('correctOption').value;
+    updateCorrectOptionDropdown();
 
     // Create the question object
     let createdQuiz = {
@@ -167,21 +168,6 @@ function closeView() {
     viewDiv.style.display = "none";
 }
 
-function getQueryParams() {
-    const params = new URLSearchParams(window.location.search);
-    return {
-      index: params.get("index"),
-      name: params.get("fullname"),
-      testIndex: params.get("testIndex"),
-    };
-  }
-
-  function getQueryParameter(name) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name); // Returns the value of the parameter or null if it doesn't exist
-}
-
-
 // function to editMCQ...
 let editIndex = null;
 function editMCQ(index) {
@@ -189,19 +175,15 @@ function editMCQ(index) {
     const question = quizQuestions[index];
 
     if (question) {
-        // Populate form fields with the existing question data
+        
         document.getElementById("question").value = question.question;
-
-        // Check if each option exists, otherwise set to an empty string
         document.getElementById("Option1").value = question.options[0].value || "";
         document.getElementById("Option2").value = question.options[1].value || "";
         document.getElementById("Option3").value = question.options[2].value || "";
         document.getElementById("Option4").value = question.options[3].value || "";
 
-        // Set the correct answer
         document.getElementById("correctOption").value = question.rightAns;
 
-        // Open the form and track the question being edited
         editIndex = index;
         openForm();
         updateCorrectOptionDropdown();
@@ -218,33 +200,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Function to deleteMCQ
 function deleteMCQ(row, questionIndex) {
-    console.log("delete");
-    let confirmMsg = confirm("Are you sure you want to delete this question ?")
-    if (confirmMsg == true) {
-
+    const confirmMsg = confirm("Are you sure you want to delete this question?");
+    if (confirmMsg) {
         let quizQuestions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
-        quizQuestions = quizQuestions.filter(q => q.id !== questionIndex);
-
-        let trTag = row.closest("tr");
-        trTag.remove();
-
-        resetSerialNumbers();
+        quizQuestions.splice(questionIndex, 1);
         localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
-        // questiontable();
-    }
-    else {
-        return false;
+
+        row.closest("tr").remove();
+        resetSerialNumbers();
     }
 }
 
-// Function to reset serial numbers in the table
+// Display serial numbers in order after deletion
 function resetSerialNumbers() {
     const rows = document.querySelectorAll("tbody tr");
     rows.forEach((row, index) => {
-        const td1 = row.cells[0];
-        if (td1) {
-            td1.innerText = index + 1;
-        }
+        row.cells[0].innerText = index + 1;
     });
 }
 
@@ -252,7 +223,7 @@ function resetSerialNumbers() {
 
 // ************************** User Table Display code starts here **********************88888
 
-// Function to display users in the user table
+// Function to display users in the user table-- userlist.html
 function displayUserList() {
     const userTableBody = document.getElementById("user-table");
     console.log(userTableBody);
@@ -286,9 +257,7 @@ function displayUserList() {
             tr.appendChild(tdScores);
 
             const tdAction = document.createElement("td");
-            tdAction.innerHTML = `<a onclick="mainUserTestDetails(${index})"> View Tests </a>`;
-            tdAction.innerHTML = `<a href="userTestDetails.html?userId={{user.id}}">View Tests</a>`
-            
+            tdAction.innerHTML = `<a onclick="userHistory(${index})"> View Tests </a>`;
             tr.appendChild(tdAction);
 
             userTableBody.appendChild(tr);
@@ -300,145 +269,88 @@ document.addEventListener("DOMContentLoaded", () => {
     displayUserList();
 });
 
-
-// function mainUserTestDetails(index) {
+function userHistory(index) {
+    console.log("hii");
+    let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
+    let user = userScores[index];
     
-//     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
-//     let user = userScores[index];
+    if (!user) {
+        console.log("User not found.");
+        return;
+    }
 
-    
-//     if (!user) {
-//         console.log("User not found.");
-//         return;
-//     }
+    // Get references to the DOM elements where you want to display the user data
+    let testDetailsDiv = document.getElementById("testDetailsDiv");
+    let userTestDetailsMain = document.getElementById("userTestDetailsMain");
+    let userHeading = document.getElementById("userHeading");
 
-//     // Get references to the DOM elements where you want to display the user data
-//     let testDetailsDiv = document.getElementById("testDetailsDiv");
-//     let userTestDetailsMain = document.getElementById("userTestDetailsMain");
-//     let userHeading = document.getElementById("userHeading");
+    // Show the test details section
+    testDetailsDiv.style.display = "block";
+    userTestDetailsMain.style.display = "inline";
 
-//     // Show the test details section
-//     testDetailsDiv.style.display = "block";
-//     userTestDetailsMain.style.display = "block";
+    // Set the user heading
+    userHeading.innerHTML = `${user.testUserName} | ${user.testUserEmail}`;
 
-//     userHeading.innerHTML = `${user.testUserName} | ${user.testUserEmail}`;
+    // Clear the table body before populating
+    userTestDetailsMain.innerHTML = "";
 
-//     userTestDetailsMain.innerHTML = "";
+    // Loop through the user's test details and create a row for each test
+    user.selectedQuiz.forEach((test, idx) => {
+        const tr = document.createElement("tr");
 
-//     // Loop through the user's test details (assuming user.selectedQuiz is an array)
-//     user.selectedQuiz.forEach((test, index) => {
-//         const tr = document.createElement("tr");
+        // Create a new cell for each data item and append it to the row
+        const tdTestNo = document.createElement("td");
+        tdTestNo.innerHTML = idx + 1;
+        tr.appendChild(tdTestNo);
 
-//         // Test number (index + 1)
-//         const tdTestNo = document.createElement("td");
-//         tdTestNo.innerHTML = index + 1;
-//         tr.appendChild(tdTestNo);
+        const tdTestDate = document.createElement("td");
+        tdTestDate.innerHTML = test.date || "N/A";
+        tr.appendChild(tdTestDate);
 
-//         // Test date
-//         const tdTestDate = document.createElement("td");
-//         tdTestDate.innerHTML = test.date || "N/A"; 
-//         tr.appendChild(tdTestDate);
+        const tdTestScore = document.createElement("td");
+        tdTestScore.innerHTML = user.score || "N/A";
+        tr.appendChild(tdTestScore);
 
-//         // Test score
-//         const tdTestScore = document.createElement("td");
-//         tdTestScore.innerHTML = user.score || "N/A"; 
-//         tr.appendChild(tdTestScore);
+        const tdTestCorrectAns = document.createElement("td");
+        tdTestCorrectAns.innerHTML = test.choosedAnswer || "N/A";
+        tr.appendChild(tdTestCorrectAns);
 
-//         // Correct answers
-//         const tdTestCorrectAns = document.createElement("td");
-//         tdTestCorrectAns.innerHTML = test.choosedAnswer || "N/A"; // Assuming the property `choosedAnswer`
-//         tr.appendChild(tdTestCorrectAns);
+        // Link to view more details
+        const tdViewTest = document.createElement("td");
+        tdViewTest.innerHTML = `<a onclick="viewTestDetails(${idx},getUserStatistics${index})">View Test</a>`;
+        tr.appendChild(tdViewTest);
 
-//         // Link to view more details
-//         const tdViewTest = document.createElement("td");
-//         tdViewTest.innerHTML = `<a onclick="viewTestDetails(${index})">View Test</a>`;
-//         tr.appendChild(tdViewTest);
-
-//         userTestDetailsMain.appendChild(tr);
-//     });
-// }
+        // Append the row to the table body
+        userTestDetailsMain.appendChild(tr);
+        getUserStatistics(index);
+    });
+}
 
 function closeTable() {
     document.getElementById("testDetailsDiv").style.display = "none";
 }
 
-// Function to display the user test details based on the query parameter
-function displayUserTestDetails() {
-    // Get the userId from the query parameters
-    const userId = getQueryParameter('userId');
-    
-    if (!userId) {
-        console.error("User ID not found in query parameters");
-        return;
-    }
+// Function to calculate the test count, total score, and total correct answers for a specific user
+function getUserStatistics(index) {
+    let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
+    let userQuiz = userScores[index].selectedQuiz;
 
-    // Get users and their scores from localStorage
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userScores = JSON.parse(localStorage.getItem("userScores")) || [];
+    const userTests = userScores.filter(
+        (test) => test.testUserName === userName && test.testUserEmail === userEmail
+    );
 
-    // Find the user by userId
-    const user = users.find(u => u.id == userId); // Assumes each user has a unique `id`
-    
-    if (!user) {
-        console.error("User not found.");
-        return;
-    }
+    const testCount = userTests.length;
+    const totalScore = userTests.reduce((sum, test) => sum + test.score, 0);
+    const totalCorrectAnswers = userTests.reduce((sum, test) => sum + test.correctAnswers, 0);
 
-    // Get the user's test details from userScores (assuming userScores has the structure to match the user)
-    const userTests = userScores.find(score => score.userId == userId)?.selectedQuiz || [];
-
-    if (!userTests.length) {
-        console.log("No tests found for this user.");
-        return;
-    }
-
-    // Get the references to the DOM elements to display user data
-    const userHeading = document.getElementById("userHeading");
-    const userTestDetailsMain = document.getElementById("userTestDetailsMain");
-
-    // Display the user's name and email in the heading
-    userHeading.innerHTML = `${user.fullName} | ${user.email}`;
-
-    // Clear any existing rows in the test details table
-    userTestDetailsMain.innerHTML = "";
-
-    // Loop through the user's test details and create the rows dynamically
-    userTests.forEach((test, index) => {
-        const tr = document.createElement("tr");
-
-        // Test number (index + 1)
-        const tdTestNo = document.createElement("td");
-        tdTestNo.innerHTML = index + 1;
-        tr.appendChild(tdTestNo);
-
-        // Test date
-        const tdTestDate = document.createElement("td");
-        tdTestDate.innerHTML = test.date; // Assuming each test object has a `date` property
-        tr.appendChild(tdTestDate);
-
-        // Test score
-        const tdTestScore = document.createElement("td");
-        tdTestScore.innerHTML = test.score || "N/A"; // Assuming each test object has a `score` property
-        tr.appendChild(tdTestScore);
-
-        // Correct answers
-        const tdTestCorrectAns = document.createElement("td");
-        tdTestCorrectAns.innerHTML = test.choosedAnswer || "N/A"; // Assuming the property `choosedAnswer`
-        tr.appendChild(tdTestCorrectAns);
-
-        // Link to view more details
-        const tdViewTest = document.createElement("td");
-        tdViewTest.innerHTML = `<a href="viewTestDetails.html?testId=${test.id}">View Test</a>`;
-        tr.appendChild(tdViewTest);
-
-        // Append the row to the table body
-        userTestDetailsMain.appendChild(tr);
+    console.log( {
+        testCount,
+        totalScore,
+        totalCorrectAnswers
     });
 }
 
-// Call the function to display the user test details when the page loads
-document.addEventListener("DOMContentLoaded", displayUserTestDetails);
-
+// console.log(userStats);
 
 
 // Attach input event listeners to each option input field to update the dropdown dynamically
@@ -447,4 +359,3 @@ document.addEventListener("DOMContentLoaded", displayUserTestDetails);
         document.getElementById(id).addEventListener('input', updateCorrectOptionDropdown);
     }
 });
-

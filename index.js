@@ -209,10 +209,10 @@ let AvatarPic = document.getElementById("AvatarPic");
 let fileInput = document.getElementById("fileInput");
 
 // Check if an avatar image is stored in localStorage when the page loads
-window.onload = function() {
+window.onload = function () {
     const savedAvatar = localStorage.getItem("avatar");
     if (savedAvatar) {
-        AvatarPic.src = savedAvatar; 
+        AvatarPic.src = savedAvatar;
     }
 };
 
@@ -226,7 +226,7 @@ function resizeAndSaveImage(imageUrl) {
     const img = new Image();
     img.src = imageUrl;
 
-    img.onload = function() {
+    img.onload = function () {
         const canvas = document.createElement("canvas");
         const MAX_WIDTH = 150;  // Set the maximum width of the resized image
         const MAX_HEIGHT = 150; // Set the maximum height of the resized image
@@ -270,7 +270,7 @@ function previewImage(event) {
 
     if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             const imageUrl = e.target.result;  // The base64-encoded image
 
             // Resize and save the image
@@ -448,6 +448,7 @@ let randomQuestion = [];
 let totalQuestions = 10;
 let index = 0;
 let selectedAnswers = [];
+
 const progressBarElement = document.getElementById("progress");
 const questionHeading = document.getElementById("questionHead");
 const questionNumberElement = document.getElementById("questionNum");
@@ -480,7 +481,7 @@ for (let i = 0; i < totalQuestions; i++) {
 // function to start quiz that will update count and recort start time..
 function startQuiz() {
     updatePlayCount();
-    quizStartTime = new Date();
+  let quizStartTime = new Date();
 }
 
 // Function to display a question
@@ -588,13 +589,15 @@ function nextQuestion() {
     }
 }
 
+
+let correctAnswers = 0;
 function updateScore() {
     score = randomQuestion.reduce((acc, question) => {
         return acc + (question.choosedAnswer === question.rightAns ? 2 : 0);
     }, 0);
-    // console.log(acc)
-    // console.log(score)
-    // console.log(`your score is ${acc, score}`)
+    if(question.choosedAnswer === question.rightAns){
+        correctAnswers ++;
+    }
 }
 
 // Function to go back to the previous question
@@ -606,7 +609,9 @@ function previousQuestion() {
     }
 }
 
+
 // Function to submit the quiz and calculate the score
+
 function submitQuiz() {
     const quizEndTime = new Date();
     const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime);
@@ -631,11 +636,11 @@ function submitQuiz() {
         localStorage.setItem('userScores', JSON.stringify(storedScores));
 
         console.log(score)
-        window.location.href = "leaderboard.html";
-    }
-}
+        // window.location.href = "leaderboard.html";
+    }}
 
-function updatePlayCount() {
+
+// function updatePlayCount() {
     const users = JSON.parse(localStorage.getItem("userScores")) || [];
     const loggedInUser = localStorage.getItem("isLoggedin");
 
@@ -649,16 +654,92 @@ function updatePlayCount() {
             localStorage.setItem("userScores", JSON.stringify(users));  // Save updated scores back to localStorage
         }
     }
-}
 
-// function to calculate time
+
+// Function to submit the quiz and calculate the score
+// function submitQuiz() {
+//     const quizEndTime = new Date();
+//     const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime);
+//     let confirmAlert = confirm("Are you sure you want to submit the quiz?");
+//     // let correctAnswers = [question.choosedAnswer === question.rightAns]
+
+//     if (confirmAlert) {
+//         // Update the user's score
+//         updateScore();
+
+//         // Retrieve the logged-in user data
+//         const userLoggedIn = JSON.parse(localStorage.getItem('isLoggedin'));
+//         const testUser = userLoggedIn;
+
+//         // Retrieve or initialize user's score data in localStorage
+//         let storedScores = JSON.parse(localStorage.getItem('userScores')) || [];
+
+//         // Find the current user's stored data
+//         const userIndex = storedScores.findIndex(
+//             (user) => user.testUserEmail === testUser.email
+//         );
+
+//         let userScore;
+//         if (userIndex === -1) {
+//             // New user entry
+//             userScore = {
+//                 testUserName: testUser.fullName,
+//                 testUserEmail: testUser.email,
+//                 totalScore: score,
+//                 totalCorrectAnswers: correctAnswers, // Track total correct answers
+//                 playCount: 1, // Initial play count
+//                 tests: [
+//                     {
+//                         score: score,
+//                         correctAnswers: correctAnswers,
+//                         selectedQuiz: randomQuestion,
+//                         timeTaken: timeTaken
+//                     }
+//                 ]
+//             };
+//             storedScores.push(userScore);
+//         } else {
+//             // Update existing user data
+//             userScore = storedScores[userIndex];
+//             userScore.totalScore += score;
+//             userScore.totalCorrectAnswers += correctAnswers;
+//             userScore.playCount += 1;
+
+//             if(!Array.isArray(userScore.tests)) {
+//                 userScore.tests = [];
+//             }
+//             userScore.tests.push({
+//                 score: score,
+//                 correctAnswers: correctAnswers,
+//                 selectedQuiz: randomQuestion,
+//                 timeTaken: timeTaken
+//             });
+//             storedScores[userIndex] = userScore;
+//         }
+
+//         // Store updated user scores in localStorage
+//         localStorage.setItem('userScores', JSON.stringify(storedScores));
+
+//         console.log({
+//             testCount: userScore.playCount,
+//             totalScore: userScore.totalScore,
+//             totalCorrectAnswers: userScore.totalCorrectAnswers,
+//             timeTaken: timeTaken
+//         });
+
+//         console.log(score);
+//         // window.location.href = "leaderboard.html";
+//     }
+// }
+
+// Function to calculate time taken
 function calculateTimeTaken(startTime, endTime) {
     const timeDiff = Math.floor((endTime - startTime) / 1000); // Time difference in seconds
     const minutes = Math.floor(timeDiff / 60);
     const seconds = timeDiff % 60;
-    console.log(timeDiff);
     return `${minutes} minutes and ${seconds} seconds`;
 }
+
 
 // Function to show top 6 leaderboard
 function showLeaderboard() {
