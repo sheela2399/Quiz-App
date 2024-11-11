@@ -21,7 +21,7 @@
             <div>
                 <span><a class="home" href="quiz.html">Home</a></span>
                 <span id="userName" class="user-name"></span>
-                <img class="Avatar" src="assests/Avatar.png" alt="" onclick="confirmLogout()">
+                <img id="AvatarPic" class="Avatar" src="assests/Avatar.png" alt="Avatar" width="50" height="50" onclick="confirmLogout()">
             </div>
             <br>
             <div id="confirmLogoutOptionDiv">
@@ -30,6 +30,8 @@
                     <span id="userEmailDisplay"></span>
                     <button class="logout-button btn-primary" onclick="logout()">Logout</button>
                     <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+
                 </div>
             </div>
         </div>

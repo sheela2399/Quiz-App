@@ -1,29 +1,3 @@
-
-let admin_email = "admin123@gmail.com";
-let admin_password = "Admin$789"
-let admin_credential = {
-    admin_email: admin_email,
-    admin_password: admin_password,
-}
-
-
-
-// const email = document.getElementById('email').value;
-// const password = document.getElementById('password').value;
-// let invalidMsgPassword = document.getElementById("invalid-password");
-// let invalidMsgEmail = document.getElementById("invalid-email");
-
-// // Function for admin Validation..
-// function adminLoginValidation() {
-//     if (email == admin_email && password == admin_password) {
-//         localStorage.setItem("admin_credential", JSON.stringify(admin_credential));
-//         alert("Welcome Admin")
-//         window.location.href = "admin.html"
-//     }
-// }
-
-// window.onload = adminLoginValidation();
-
 // function to handle logout Alert
 
 let logoutDivCon = document.getElementById("confirmLogoutOptionDiv");
@@ -31,15 +5,19 @@ let flags = 0;
 function confirmLog() {
     if (flags == 1) {
         logoutDivCon.style.display = "none";
-        // document.querySelector(".user-info").style.flexDirection = "column";
         flags = 0;
     }
     else {
         logoutDivCon.style.display = "block";
-        document.getElementById("userNameDisplay").innerHTML = `Hii ${testUser.fullName}`;
-        document.getElementById("userEmailDisplay").innerHTML = testUser.email;
+        // document.getElementById("userNameDisplay").innerHTML = `Hii ${adminLoggedIn.fullName}`;
+        // document.getElementById("userEmailDisplay").innerHTML = adminLoggedIn.email;
         flags = 1;
     }
+}
+
+function logoutAdmin() {
+    localStorage.removeItem("adminLoggedIn"); // Optionally remove login status
+    window.location.href = "index.html"; // Redirect to login page ***
 }
 
 //  ***************** quiz main page started ************************************
@@ -164,7 +142,7 @@ function viewMCQ(index) {
 
         let viewDiv = document.querySelector('.viewMcq');
         viewDiv.innerHTML = `
-       <div class="dis-row-between"><h3>View Question</h3><button onclick="closeView()"> X </button></div>
+       <div class="dis-row-between"><h3>View Question</h3><button onclick="closeView()"> X </button></div> <br>
         <p><strong>Question:</strong> ${question.question}</p>
         <p><strong>Options:</strong></p>
         <ul>
@@ -197,6 +175,12 @@ function getQueryParams() {
     };
   }
 
+  function getQueryParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name); // Returns the value of the parameter or null if it doesn't exist
+}
+
+
 // function to editMCQ...
 let editIndex = null;
 function editMCQ(index) {
@@ -208,10 +192,10 @@ function editMCQ(index) {
         document.getElementById("question").value = question.question;
 
         // Check if each option exists, otherwise set to an empty string
-        document.getElementById("Option1").value = question.options[0]?.value || "";
-        document.getElementById("Option2").value = question.options[1]?.value || "";
-        document.getElementById("Option3").value = question.options[2]?.value || "";
-        document.getElementById("Option4").value = question.options[3]?.value || "";
+        document.getElementById("Option1").value = question.options[0].value || "";
+        document.getElementById("Option2").value = question.options[1].value || "";
+        document.getElementById("Option3").value = question.options[2].value || "";
+        document.getElementById("Option4").value = question.options[3].value || "";
 
         // Set the correct answer
         document.getElementById("correctOption").value = question.rightAns;
@@ -302,6 +286,8 @@ function displayUserList() {
 
             const tdAction = document.createElement("td");
             tdAction.innerHTML = `<a onclick="mainUserTestDetails(${index})"> View Tests </a>`;
+            tdAction.innerHTML = `<a href="userTestDetails.html?userId={{user.id}}">View Tests</a>`
+            
             tr.appendChild(tdAction);
 
             userTableBody.appendChild(tr);
@@ -314,32 +300,109 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function mainUserTestDetails(index) {
+// function mainUserTestDetails(index) {
     
-    let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
-    let user = userScores[index];
+//     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
+//     let user = userScores[index];
 
     
-    if (!user) {
-        console.log("User not found.");
+//     if (!user) {
+//         console.log("User not found.");
+//         return;
+//     }
+
+//     // Get references to the DOM elements where you want to display the user data
+//     let testDetailsDiv = document.getElementById("testDetailsDiv");
+//     let userTestDetailsMain = document.getElementById("userTestDetailsMain");
+//     let userHeading = document.getElementById("userHeading");
+
+//     // Show the test details section
+//     testDetailsDiv.style.display = "block";
+//     userTestDetailsMain.style.display = "block";
+
+//     userHeading.innerHTML = `${user.testUserName} | ${user.testUserEmail}`;
+
+//     userTestDetailsMain.innerHTML = "";
+
+//     // Loop through the user's test details (assuming user.selectedQuiz is an array)
+//     user.selectedQuiz.forEach((test, index) => {
+//         const tr = document.createElement("tr");
+
+//         // Test number (index + 1)
+//         const tdTestNo = document.createElement("td");
+//         tdTestNo.innerHTML = index + 1;
+//         tr.appendChild(tdTestNo);
+
+//         // Test date
+//         const tdTestDate = document.createElement("td");
+//         tdTestDate.innerHTML = test.date || "N/A"; 
+//         tr.appendChild(tdTestDate);
+
+//         // Test score
+//         const tdTestScore = document.createElement("td");
+//         tdTestScore.innerHTML = user.score || "N/A"; 
+//         tr.appendChild(tdTestScore);
+
+//         // Correct answers
+//         const tdTestCorrectAns = document.createElement("td");
+//         tdTestCorrectAns.innerHTML = test.choosedAnswer || "N/A"; // Assuming the property `choosedAnswer`
+//         tr.appendChild(tdTestCorrectAns);
+
+//         // Link to view more details
+//         const tdViewTest = document.createElement("td");
+//         tdViewTest.innerHTML = `<a onclick="viewTestDetails(${index})">View Test</a>`;
+//         tr.appendChild(tdViewTest);
+
+//         userTestDetailsMain.appendChild(tr);
+//     });
+// }
+
+function closeTable() {
+    document.getElementById("testDetailsDiv").style.display = "none";
+}
+
+// Function to display the user test details based on the query parameter
+function displayUserTestDetails() {
+    // Get the userId from the query parameters
+    const userId = getQueryParameter('userId');
+    
+    if (!userId) {
+        console.error("User ID not found in query parameters");
         return;
     }
 
-    // Get references to the DOM elements where you want to display the user data
-    let testDetailsDiv = document.getElementById("testDetailsDiv");
-    let userTestDetailsMain = document.getElementById("userTestDetailsMain");
-    let userHeading = document.getElementById("userHeading");
+    // Get users and their scores from localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const userScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
-    // Show the test details section
-    testDetailsDiv.style.display = "block";
-    userTestDetailsMain.style.display = "block";
+    // Find the user by userId
+    const user = users.find(u => u.id == userId); // Assumes each user has a unique `id`
+    
+    if (!user) {
+        console.error("User not found.");
+        return;
+    }
 
-    userHeading.innerHTML = `${user.testUserName} | ${user.testUserEmail}`;
+    // Get the user's test details from userScores (assuming userScores has the structure to match the user)
+    const userTests = userScores.find(score => score.userId == userId)?.selectedQuiz || [];
 
+    if (!userTests.length) {
+        console.log("No tests found for this user.");
+        return;
+    }
+
+    // Get the references to the DOM elements to display user data
+    const userHeading = document.getElementById("userHeading");
+    const userTestDetailsMain = document.getElementById("userTestDetailsMain");
+
+    // Display the user's name and email in the heading
+    userHeading.innerHTML = `${user.fullName} | ${user.email}`;
+
+    // Clear any existing rows in the test details table
     userTestDetailsMain.innerHTML = "";
 
-    // Loop through the user's test details (assuming user.selectedQuiz is an array)
-    user.selectedQuiz.forEach((test, index) => {
+    // Loop through the user's test details and create the rows dynamically
+    userTests.forEach((test, index) => {
         const tr = document.createElement("tr");
 
         // Test number (index + 1)
@@ -349,12 +412,12 @@ function mainUserTestDetails(index) {
 
         // Test date
         const tdTestDate = document.createElement("td");
-        tdTestDate.innerHTML = test.date || "N/A"; 
+        tdTestDate.innerHTML = test.date; // Assuming each test object has a `date` property
         tr.appendChild(tdTestDate);
 
         // Test score
         const tdTestScore = document.createElement("td");
-        tdTestScore.innerHTML = user.score || "N/A"; 
+        tdTestScore.innerHTML = test.score || "N/A"; // Assuming each test object has a `score` property
         tr.appendChild(tdTestScore);
 
         // Correct answers
@@ -364,20 +427,17 @@ function mainUserTestDetails(index) {
 
         // Link to view more details
         const tdViewTest = document.createElement("td");
-        tdViewTest.innerHTML = `<a onclick="viewTestDetails(${index})">View Test</a>`;
+        tdViewTest.innerHTML = `<a href="viewTestDetails.html?testId=${test.id}">View Test</a>`;
         tr.appendChild(tdViewTest);
 
+        // Append the row to the table body
         userTestDetailsMain.appendChild(tr);
     });
 }
 
-function closeTable() {
-    document.getElementById("testDetailsDiv").style.display = "none";
-}
+// Call the function to display the user test details when the page loads
+document.addEventListener("DOMContentLoaded", displayUserTestDetails);
 
-function viewTestDetails(index){
-
-}
 
 
 // Attach input event listeners to each option input field to update the dropdown dynamically

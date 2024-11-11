@@ -4,13 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
-    <link rel="stylesheet" href="/AdminPanel/style/admin.css">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
 </head>
 
 <body>
@@ -27,7 +21,7 @@
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
-                        <span id="userNameDisplay">Admin</span>
+                        <span id="userNameDisplay"></span>
                         <span id="userEmailDisplay"></span>
                         <button class="logout-button btn-primary" onclick="logoutAdmin()">Logout</button>
                         <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
@@ -36,7 +30,6 @@
             </div>
         </div>
     </header>
-
     <div class="main-div dis-row-between">
         <div class="left-part">
             <h2>Menu</h2>
@@ -56,12 +49,21 @@
             </ul>
         </div>
         <div class="right-part dis-col-center">
-            <h1>Welcome to Admin Page!</h1>
+            <h1 id="userHeading"></h1>
+            <div class="users-test-section">
+                <div class="users-test-data">
+                  <span id="test-number"></span>
+                  <span id="test-score"></span>
+                  <span id="test-date"></span>
+                  <span id="test-time"></span>
+                </div>
+                <div class="user-test" id="user-test-data"></div>
+              </div>
+      
         </div>
-    </div>
-    <script src="/index.js"></script>
-    <script src="/AdminPanel/script/admin.js"></script>
-    <!-- <script>confirmLogout(), validateLogin()</script> -->
+
+        <script src="/index.js"></script>
+        <script src="/AdminPanel/script/admin.js"></script>
 </body>
 
 </html>

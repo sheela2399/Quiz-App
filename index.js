@@ -27,25 +27,17 @@ function validateSignup() {
         invalidMsgFullName.innerHTML = "Enter a Name";
         return false;
     }
-    // else {
-    //     invalidMsgFullName.innerHTML = `<i class="fa-regular fa-circle-check"></i>`;
-    // }
 
     if (!reEmail.test(email) || email == "") {
         invalidMsgEmail.innerHTML = "Enter a valid Email";
         return false;
     }
-    // else {
-    //     invalidMsgEmail.innerHTML = `<i class="fa-regular fa-circle-check"></i>`;
-    // }
 
     if (!rePass.test(password) || password == "") {
         invalidMsgPassword.innerHTML = "Enter a valid Password with one uppercase letter, one lowercase letter, and at least one special character.";
         return false;
     }
-    // else if (rePass.test(password)) {
-    //     invalidMsgPassword.innerHTML = `<i class="fa-regular fa-circle-check"></i>`;
-    // }
+
     if (!checkbox) {
         alert("Please check terms and condition")
         return false;
@@ -90,11 +82,13 @@ function passwordHideShow() {
         showPassword.style.color = "black";
     }
 }
+
 // signup code ends..
 
 
 // login code start...
 function validateLogin() {
+    let adminLoggedIn = [];
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     let invalidMsgPassword = document.getElementById("invalid-password");
@@ -118,6 +112,14 @@ function validateLogin() {
 
     if (!user) {
         invalidMsgEmail.innerHTML = "Email not registered";
+        return;
+    }
+
+    if (email === "admin@gmail.com" && password === "Admin@123") {
+        console.log("Admin Login Successfull");
+        window.location.href = "/AdminPanel/admin.html";
+        adminLoggedIn.push({ fullName: "Admin", email: email, password: password });
+        localStorage.setItem("adminLoggedIn", JSON.stringify(adminLoggedIn));
         return;
     }
 
@@ -179,7 +181,7 @@ displayUserName()
 let logoutDiv = document.getElementById("confirmLogoutOptionDiv");
 let flag = 0;
 function confirmLogout() {
-      
+
     if (flag == 1) {
         logoutDiv.style.display = "none";
         // document.querySelector(".user-info").style.flexDirection = "column";
@@ -200,13 +202,42 @@ function logout() {
 }
 
 // Function to take image input
-let editOption = document.getElementsByClassName("edit-button")
-let AvatarPic = document.getElementById("AvatarPic")
-function editPic() {
-    console.log(editOption, AvatarPic)
-    //    personalAccount = document.querySelector(".account-img");
+let editOption = document.getElementsByClassName("edit-button")[0];
+let AvatarPic = document.getElementById("AvatarPic");
+let fileInput = document.getElementById("fileInput");
 
+// Check if an avatar image is stored in localStorage when the page loads
+window.onload = function() {
+    const savedAvatar = localStorage.getItem("avatar");
+    if (savedAvatar) {
+        AvatarPic.src = savedAvatar; // Set the image source to the saved avatar
+    }
+};
+
+function editPic() {
+    // Trigger the file input when the "Edit Picture" button is clicked
+    fileInput.click();
 }
+
+function previewImage(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageUrl = e.target.result;  // The base64-encoded image
+
+            // Set the AvatarPic src to the uploaded image
+            AvatarPic.src = imageUrl;
+
+            // Save the image URL to localStorage so it persists across page refreshes
+            localStorage.setItem("avatar", imageUrl);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+
 
 // quiz page code ends....
 
@@ -406,7 +437,7 @@ for (let i = 0; i < totalQuestions; i++) {
 }
 
 // function to start quiz that will update count and recort start time..
-function startQuiz(){
+function startQuiz() {
     updatePlayCount();
     quizStartTime = new Date();
 }
@@ -539,12 +570,12 @@ function submitQuiz() {
     const quizEndTime = new Date();
     const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime);
     let confirmAlert = confirm("Are you sure want to submit the quiz?");
-    
+
     if (confirmAlert) {
         updateScore();
         // let userLogedIn = JSON.parse(localStorage.getItem('isLoggedin'));
         // let testUser = userLogedIn;
-        
+
         const userScore = {
             testUserName: testUser.fullName,
             testUserEmail: testUser.email,
@@ -566,19 +597,19 @@ function submitQuiz() {
 function updatePlayCount() {
     const users = JSON.parse(localStorage.getItem("userScores")) || [];
     const loggedInUser = localStorage.getItem("isLoggedin");
-    
+
     if (loggedInUser && loggedInUser.email) {
         const loggedInEmail = loggedInUser.email;  // Correctly get email from logged-in user data
         const userIndex = users.findIndex((user) => user.testUserEmail === loggedInEmail);  // Use the correct property for email in userScore
-        
+
         if (userIndex !== -1) {
-            
+
             users[userIndex].playCount = (users[userIndex].playCount || 0) + 1;
             localStorage.setItem("userScores", JSON.stringify(users));  // Save updated scores back to localStorage
         }
     }
 }
-     
+
 // function to calculate time
 function calculateTimeTaken(startTime, endTime) {
     const timeDiff = Math.floor((endTime - startTime) / 1000); // Time difference in seconds
@@ -586,7 +617,7 @@ function calculateTimeTaken(startTime, endTime) {
     const seconds = timeDiff % 60;
     console.log(timeDiff);
     return `${minutes} minutes and ${seconds} seconds`;
-  }
+}
 
 // Function to show top 6 leaderboard
 function showLeaderboard() {
@@ -664,7 +695,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-if(userNameElement || userNameDisplay || userEmailDisplay || admin_credential || testUser){
+if (userNameElement || userNameDisplay || userEmailDisplay || admin_credential || testUser) {
     confirmLogout();
     displayUserName();
     adminLoginValidation();

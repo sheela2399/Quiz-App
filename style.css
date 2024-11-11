@@ -288,7 +288,10 @@ svg {
 
 .Avatar{
     cursor: pointer;
+    border-radius: 50%;
 }
+
+
 
 #confirmLogoutOptionDiv{
     display: none;  
