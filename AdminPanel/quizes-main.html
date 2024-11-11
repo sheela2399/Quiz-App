@@ -15,15 +15,15 @@
 
 <body>
     <header>
-        <div class="quiz-start-nav dis-row-between">
+        <nav class="quiz-start-nav dis-row-between">
             <div>
                 <a href="https://techpaathshala.com/">
-                    <img src="/AdminPanel/assets/techpaathshala_logo.png" alt="logo">
+                    <img src="assets/techpaathshala_logo.png" alt="logo">
                 </a>
             </div>
             <div class="user-info">
-                <span class="user-name">Admin</span>
-                <i class="fa-solid fa-user-tie" onclick="confirmLog()"></i>
+                <span id="userName" class="user-name">Admin</span>
+                <img id="AvatarPic" class="Avatar" src="assets/admin.webp" alt="Avatar" onclick="confirmLog()">
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
@@ -31,10 +31,12 @@
                         <span id="userEmailDisplay"></span>
                         <button class="logout-button btn-primary" onclick="logout()">Logout</button>
                         <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;"
+                            onchange="previewImage(event)">
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
     <main>
         <div class="main-div dis-row-between">
@@ -58,7 +60,7 @@
             <div class="right-part">
                 <h2>MCQ Question Lists</h2>
                 <button class="btn-primary open-button" onclick="openForm()">Add New Questions</button>
-                
+
                 <table class="quiz-table" id="question-table-main">
                     <thead>
                         <tr>
@@ -68,7 +70,7 @@
                         </tr>
                     </thead>
                     <tbody id="question-table">
-                       <!-- Table content -->
+                        <!-- Table content -->
                     </tbody>
                 </table>
             </div>

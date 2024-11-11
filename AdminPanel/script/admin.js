@@ -17,7 +17,8 @@ function confirmLog() {
 
 function logoutAdmin() {
     localStorage.removeItem("adminLoggedIn"); // Optionally remove login status
-    window.location.href = "index.html"; // Redirect to login page ***
+    window.location.assign = "/index.html"; // Absolute path to the login page
+
 }
 
 //  ***************** quiz main page started ************************************

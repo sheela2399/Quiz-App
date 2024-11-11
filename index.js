@@ -117,7 +117,7 @@ function validateLogin() {
 
     if (email === "admin@gmail.com" && password === "Admin@123") {
         console.log("Admin Login Successfull");
-        window.location.href = "/AdminPanel/admin.html";
+        window.location.assign("/AdminPanel/admin.html");
         adminLoggedIn.push({ fullName: "Admin", email: email, password: password });
         localStorage.setItem("adminLoggedIn", JSON.stringify(adminLoggedIn));
         return;
@@ -201,7 +201,9 @@ function logout() {
     window.location.href = "index.html"; // Redirect to login page
 }
 
-// Function to take image input
+// Function to take image input.....
+
+// Get the required elements
 let editOption = document.getElementsByClassName("edit-button")[0];
 let AvatarPic = document.getElementById("AvatarPic");
 let fileInput = document.getElementById("fileInput");
@@ -210,15 +212,59 @@ let fileInput = document.getElementById("fileInput");
 window.onload = function() {
     const savedAvatar = localStorage.getItem("avatar");
     if (savedAvatar) {
-        AvatarPic.src = savedAvatar; // Set the image source to the saved avatar
+        AvatarPic.src = savedAvatar; 
     }
 };
 
+// Function to file input when "Edit Picture" button is clicked
 function editPic() {
-    // Trigger the file input when the "Edit Picture" button is clicked
     fileInput.click();
 }
 
+// Function to resize the image and then save it in localStorage
+function resizeAndSaveImage(imageUrl) {
+    const img = new Image();
+    img.src = imageUrl;
+
+    img.onload = function() {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 150;  // Set the maximum width of the resized image
+        const MAX_HEIGHT = 150; // Set the maximum height of the resized image
+        let width = img.width;
+        let height = img.height;
+
+        // Resize the image proportionally
+        if (width > height) {
+            if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+            }
+        } else {
+            if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+            }
+        }
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw the resized image onto the canvas
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert the canvas image to base64 and save it to localStorage
+        const resizedImageUrl = canvas.toDataURL("image/jpeg", 0.7); // Adjust the quality if needed (0.7 = 70%)
+        AvatarPic.src = resizedImageUrl;
+
+        try {
+            localStorage.setItem("avatar", resizedImageUrl);
+        } catch (e) {
+            console.error("Resized image still too large for localStorage", e);
+        }
+    };
+}
+
+// Function to handle the file input change event
 function previewImage(event) {
     const file = event.target.files[0];
 
@@ -227,17 +273,12 @@ function previewImage(event) {
         reader.onload = function(e) {
             const imageUrl = e.target.result;  // The base64-encoded image
 
-            // Set the AvatarPic src to the uploaded image
-            AvatarPic.src = imageUrl;
-
-            // Save the image URL to localStorage so it persists across page refreshes
-            localStorage.setItem("avatar", imageUrl);
+            // Resize and save the image
+            resizeAndSaveImage(imageUrl);
         };
         reader.readAsDataURL(file);
     }
 }
-
-
 
 // quiz page code ends....
 

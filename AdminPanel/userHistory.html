@@ -7,27 +7,30 @@
 </head>
 <body>
     <header>
-        <div class="quiz-start-nav dis-row-between">
+        <nav class="quiz-start-nav dis-row-between">
             <div>
                 <a href="https://techpaathshala.com/">
-                    <img src="/AdminPanel/assets/techpaathshala_logo.png" alt="logo">
+                    <img src="assets/techpaathshala_logo.png" alt="logo">
                 </a>
             </div>
             <div class="user-info">
-                <span class="user-name">Admin</span>
-                <i class="fa-solid fa-user-tie" onclick="confirmLog()"></i>
+                <span id="userName" class="user-name">Admin</span>
+                <img id="AvatarPic" class="Avatar" src="assets/admin.webp" alt="Avatar" onclick="confirmLog()">
                 <br>
                 <div id="confirmLogoutOptionDiv">
                     <div class="confirm dis-col-center">
-                        <span id="userNameDisplay"></span>
+                        <span id="userNameDisplay">Admin</span>
                         <span id="userEmailDisplay"></span>
-                        <button class="logout-button btn-primary" onclick="logoutAdmin()">Logout</button>
+                        <button class="logout-button btn-primary" onclick="logout()">Logout</button>
                         <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;"
+                            onchange="previewImage(event)">
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
+    
     <div class="main-div dis-row-between">
         <div class="left-part">
             <h2>Menu</h2>
