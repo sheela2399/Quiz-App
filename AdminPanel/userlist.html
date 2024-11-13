@@ -38,7 +38,7 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="main-div dis-row-between">
         <div class="left-part">
             <h2>Menu</h2>
@@ -76,6 +76,42 @@
         </div>
     </div>
 
+    <div id="testDetailsDiv" style="display:none">
+        <div class=" userHeading dis-row-between">
+            <h2 id="userHeading"></h2>
+            <!-- <button onclick="closeTable()"> X </button> -->
+         </div>
+        <table class="testDetailsTable">
+            <thead>
+                <tr>
+                    <th>Test No.</th>
+                    <th>Test date</th>
+                    <th>Score</th>
+                    <th>Correct Ans</th>
+                    <th>View Test</th>
+                </tr>
+            </thead>
+            <tbody id="userTestDetailsMain">
+
+            </tbody>
+        </table>
+    </div> 
+    
+    <div id="testDetails" style="display:none" >
+        <div class="userHeading dis-row-between">
+            <h2 id="userHeading"></h2>
+            <button onclick="closeTable()"> X </button>
+        </div>
+        <div class="users-test-section">
+            <div class="users-test-data dis-row-around">
+              <span id="test-number"></span>
+              <span id="test-score"></span>
+              <span id="test-date"></span>
+              <span id="test-time"></span>
+            </div>
+            <div class="user-test" id="user-test-data"></div>
+          </div>
+    
     <script src="/index.js"></script>
     <script src="/AdminPanel/script/admin.js"></script>
 
