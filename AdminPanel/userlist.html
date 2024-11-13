@@ -29,7 +29,7 @@
                     <div class="confirm dis-col-center">
                         <span id="userNameDisplay">Admin</span>
                         <span id="userEmailDisplay"></span>
-                        <button class="logout-button btn-primary" onclick="logout()">Logout</button>
+                        <button class="logout-button btn-primary" onclick="logoutAdmin()">Logout</button>
                         <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
                         <input type="file" id="fileInput" accept="image/*" style="display: none;"
                             onchange="previewImage(event)">
@@ -74,28 +74,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div id="testDetailsDiv" class="form-popup">
-        <div class=" userHeading dis-row-between">
-            <h2 id="userHeading"></h2>
-            <button onclick="closeTable()"> X </button>
-        </div>
-        <table class="testDetailsTable">
-            <thead>
-                <tr>
-                    <th>Test No.</th>
-                    <th>Test date</th>
-                    <th>Score</th>
-                    <th>Correct Ans</th>
-                    <th>View Test</th>
-                </tr>
-            </thead>
-            <tbody id="userTestDetailsMain">
-
-            </tbody>
-        </table>
-
     </div>
 
     <script src="/index.js"></script>

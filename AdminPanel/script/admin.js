@@ -9,16 +9,14 @@ function confirmLog() {
     }
     else {
         logoutDivCon.style.display = "block";
-        // document.getElementById("userNameDisplay").innerHTML = `Hii ${adminLoggedIn.fullName}`;
-        // document.getElementById("userEmailDisplay").innerHTML = adminLoggedIn.email;
         flags = 1;
     }
 }
 
 function logoutAdmin() {
-    localStorage.removeItem("adminLoggedIn"); // Optionally remove login status
-    window.location.assign = "/index.html"; // Absolute path to the login page
-
+    localStorage.removeItem("adminLoggedIn");
+    // console.log("in")
+    window.location.assign("../index.html");
 }
 
 //  ***************** quiz main page started ************************************
@@ -133,7 +131,7 @@ function updateCorrectOptionDropdown() {
     });
 }
 
-// Function for Actions in Question Table....
+//*************/ Function for Actions in Question Table....***********************************
 
 // function to viewMCQ
 function viewMCQ(index) {
@@ -175,7 +173,7 @@ function editMCQ(index) {
     const question = quizQuestions[index];
 
     if (question) {
-        
+
         document.getElementById("question").value = question.question;
         document.getElementById("Option1").value = question.options[0].value || "";
         document.getElementById("Option2").value = question.options[1].value || "";
@@ -248,14 +246,33 @@ function displayUserList() {
             tdEmail.innerHTML = user.email;
             tr.appendChild(tdEmail);
 
+            // const tdTestsGiven = document.createElement("td");
+            // tdTestsGiven.innerHTML = user.playCount || 0;
+            // tr.appendChild(tdTestsGiven);
+
+            // const tdScores = document.createElement("td");
+            // tdScores.textContent = user.score || "N/A";
+            // tr.appendChild(tdScores);
+
+            // const tdAction = document.createElement("td");
+            // tdAction.innerHTML = `<a onclick="userHistory(${index})"> View Tests </a>`;
+            // tr.appendChild(tdAction);
+
+            const userScoresData = userScores.filter(scoreEntry => scoreEntry.testUserEmail === user.email);
+            const testsGiven = userScoresData.length;
+            const totalScore = userScoresData.reduce((acc, curr) => acc + (curr.score || 0), 0);
+
+            // Tests given column
             const tdTestsGiven = document.createElement("td");
-            tdTestsGiven.innerHTML = user.playCount || 0;
+            tdTestsGiven.innerHTML = testsGiven;
             tr.appendChild(tdTestsGiven);
 
+            // Total score column
             const tdScores = document.createElement("td");
-            tdScores.textContent = user.score || "N/A";
+            tdScores.textContent = totalScore || "N/A";
             tr.appendChild(tdScores);
 
+            // Action column for viewing test history
             const tdAction = document.createElement("td");
             tdAction.innerHTML = `<a onclick="userHistory(${index})"> View Tests </a>`;
             tr.appendChild(tdAction);
@@ -270,10 +287,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function userHistory(index) {
+    window.location.assign("userHistory.html"); // Redirect to login page
+
     console.log("hii");
     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
     let user = userScores[index];
-    
+
     if (!user) {
         console.log("User not found.");
         return;
@@ -317,7 +336,7 @@ function userHistory(index) {
 
         // Link to view more details
         const tdViewTest = document.createElement("td");
-        tdViewTest.innerHTML = `<a onclick="viewTestDetails(${idx},getUserStatistics${index})">View Test</a>`;
+        tdViewTest.innerHTML = `<a onclick="viewTestHistory(${idx}">View Test</a>`;
         tr.appendChild(tdViewTest);
 
         // Append the row to the table body
@@ -330,28 +349,10 @@ function closeTable() {
     document.getElementById("testDetailsDiv").style.display = "none";
 }
 
-// Function to calculate the test count, total score, and total correct answers for a specific user
-function getUserStatistics(index) {
-    let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
-    let userQuiz = userScores[index].selectedQuiz;
+function viewTestHistory(index) {
+    console.log("hii");
 
-    const userTests = userScores.filter(
-        (test) => test.testUserName === userName && test.testUserEmail === userEmail
-    );
-
-    const testCount = userTests.length;
-    const totalScore = userTests.reduce((sum, test) => sum + test.score, 0);
-    const totalCorrectAnswers = userTests.reduce((sum, test) => sum + test.correctAnswers, 0);
-
-    console.log( {
-        testCount,
-        totalScore,
-        totalCorrectAnswers
-    });
 }
-
-// console.log(userStats);
-
 
 // Attach input event listeners to each option input field to update the dropdown dynamically
 ['Option1', 'Option2', 'Option3', 'Option4'].forEach(id => {

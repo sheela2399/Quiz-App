@@ -480,7 +480,6 @@ for (let i = 0; i < totalQuestions; i++) {
 
 // function to start quiz that will update count and recort start time..
 function startQuiz() {
-    updatePlayCount();
   let quizStartTime = new Date();
 }
 
@@ -627,7 +626,6 @@ function submitQuiz() {
             testUserEmail: testUser.email,
             score: score,
             selectedQuiz: randomQuestion,
-            playCount: 0
         };
 
         let storedScores = JSON.parse(localStorage.getItem('userScores')) || [];
@@ -636,101 +634,8 @@ function submitQuiz() {
         localStorage.setItem('userScores', JSON.stringify(storedScores));
 
         console.log(score)
-        // window.location.href = "leaderboard.html";
+        window.location.href = "leaderboard.html";
     }}
-
-
-// function updatePlayCount() {
-    const users = JSON.parse(localStorage.getItem("userScores")) || [];
-    const loggedInUser = localStorage.getItem("isLoggedin");
-
-    if (loggedInUser && loggedInUser.email) {
-        const loggedInEmail = loggedInUser.email;  // Correctly get email from logged-in user data
-        const userIndex = users.findIndex((user) => user.testUserEmail === loggedInEmail);  // Use the correct property for email in userScore
-
-        if (userIndex !== -1) {
-
-            users[userIndex].playCount = (users[userIndex].playCount || 0) + 1;
-            localStorage.setItem("userScores", JSON.stringify(users));  // Save updated scores back to localStorage
-        }
-    }
-
-
-// Function to submit the quiz and calculate the score
-// function submitQuiz() {
-//     const quizEndTime = new Date();
-//     const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime);
-//     let confirmAlert = confirm("Are you sure you want to submit the quiz?");
-//     // let correctAnswers = [question.choosedAnswer === question.rightAns]
-
-//     if (confirmAlert) {
-//         // Update the user's score
-//         updateScore();
-
-//         // Retrieve the logged-in user data
-//         const userLoggedIn = JSON.parse(localStorage.getItem('isLoggedin'));
-//         const testUser = userLoggedIn;
-
-//         // Retrieve or initialize user's score data in localStorage
-//         let storedScores = JSON.parse(localStorage.getItem('userScores')) || [];
-
-//         // Find the current user's stored data
-//         const userIndex = storedScores.findIndex(
-//             (user) => user.testUserEmail === testUser.email
-//         );
-
-//         let userScore;
-//         if (userIndex === -1) {
-//             // New user entry
-//             userScore = {
-//                 testUserName: testUser.fullName,
-//                 testUserEmail: testUser.email,
-//                 totalScore: score,
-//                 totalCorrectAnswers: correctAnswers, // Track total correct answers
-//                 playCount: 1, // Initial play count
-//                 tests: [
-//                     {
-//                         score: score,
-//                         correctAnswers: correctAnswers,
-//                         selectedQuiz: randomQuestion,
-//                         timeTaken: timeTaken
-//                     }
-//                 ]
-//             };
-//             storedScores.push(userScore);
-//         } else {
-//             // Update existing user data
-//             userScore = storedScores[userIndex];
-//             userScore.totalScore += score;
-//             userScore.totalCorrectAnswers += correctAnswers;
-//             userScore.playCount += 1;
-
-//             if(!Array.isArray(userScore.tests)) {
-//                 userScore.tests = [];
-//             }
-//             userScore.tests.push({
-//                 score: score,
-//                 correctAnswers: correctAnswers,
-//                 selectedQuiz: randomQuestion,
-//                 timeTaken: timeTaken
-//             });
-//             storedScores[userIndex] = userScore;
-//         }
-
-//         // Store updated user scores in localStorage
-//         localStorage.setItem('userScores', JSON.stringify(storedScores));
-
-//         console.log({
-//             testCount: userScore.playCount,
-//             totalScore: userScore.totalScore,
-//             totalCorrectAnswers: userScore.totalCorrectAnswers,
-//             timeTaken: timeTaken
-//         });
-
-//         console.log(score);
-//         // window.location.href = "leaderboard.html";
-//     }
-// }
 
 // Function to calculate time taken
 function calculateTimeTaken(startTime, endTime) {

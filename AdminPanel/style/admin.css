@@ -189,23 +189,11 @@ select {
   margin: 20px;
 }
  
-#userTestDetailsMain{
-  display: none;
-}
-
 table{
   border-collapse: collapse;
 }
 
-#testDetailsDiv{
-  display: none;
-  position: absolute;
-  width: 700px;
-  padding: 15px;
-  background-color: #f1f1f1;
-  border-radius: 10px;
-}
-
+/* user history page */
 #testDetailsDiv button
 {
   border: none;

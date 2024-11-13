@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User History</title>
+        <link rel="stylesheet" href="/AdminPanel/style/admin.css">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
     <header>
         <nav class="quiz-start-nav dis-row-between">
             <div>
@@ -21,7 +27,7 @@
                     <div class="confirm dis-col-center">
                         <span id="userNameDisplay">Admin</span>
                         <span id="userEmailDisplay"></span>
-                        <button class="logout-button btn-primary" onclick="logout()">Logout</button>
+                        <button class="logout-button btn-primary" onclick="logoutAdmin()">Logout</button>
                         <button class="edit-button btn-primary" onclick="editPic()"> Edit </button>
                         <input type="file" id="fileInput" accept="image/*" style="display: none;"
                             onchange="previewImage(event)">
@@ -50,7 +56,7 @@
             </ul>
         </div>
         <div class="right-part dis-col-center">
-            <div id="testDetailsDiv" class="form-popup">
+            <div id="testDetailsDiv">
                 <div class=" userHeading dis-row-between">
                     <h2 id="userHeading"></h2>
                     <button onclick="closeTable()"> X </button>
@@ -69,7 +75,6 @@
         
                     </tbody>
                 </table>
-        
             </div>
         
             <script src="/index.js"></script>
