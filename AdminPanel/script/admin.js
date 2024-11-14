@@ -279,16 +279,14 @@ document.addEventListener("DOMContentLoaded", () => {
     displayUserList();
 });
 
+// Function for userhistory table...
 function userHistory(index) {
-
     let testDetailsDiv = document.getElementById("testDetailsDiv");
-
     testDetailsDiv.style.display = "block";
-    // Fetch userScores and users data from localStorage
+
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
-    // Get the specific user using the index passed
     let user = users[index];
 
     if (!user) {
@@ -296,7 +294,6 @@ function userHistory(index) {
         return;
     }
 
-    // Get the user's test data based on the email
     let userTestScores = userScores.filter(scoreEntry => scoreEntry.testUserEmail === user.email);
 
     if (userTestScores.length === 0) {
@@ -304,183 +301,41 @@ function userHistory(index) {
         return;
     }
 
-    // Display the user's name and email at the top of the table
     let userHeading = document.getElementById("userHeading");
-    userHeading.innerHTML = `<h2>${user.fullName} | ${user.email}</h2>`;
+    userHeading.innerHTML = `<h4>${user.fullName} | ${user.email}</h4>`;
 
-    // Get the table body element where we will append the test details
     let userTestDetailsMain = document.getElementById("userTestDetailsMain");
-
-    // Clear any previous content in the table
     userTestDetailsMain.innerHTML = "";
 
-    // Loop through the tests and display them in the table
     userTestScores.forEach((test, idx) => {
         const tr = document.createElement("tr");
 
-        // Create Test No. column
         const tdTestNo = document.createElement("td");
-        tdTestNo.innerHTML = idx + 1;  // Display test number (1-based index)
+        tdTestNo.innerHTML = idx + 1;  
         tr.appendChild(tdTestNo);
 
-        // Create Test Date column
         const tdTestDate = document.createElement("td");
-        tdTestDate.innerHTML = test.date || "N/A";  // If no date, show "N/A"
+        tdTestDate.innerHTML = test.date || "N/A"; 
         tr.appendChild(tdTestDate);
 
-        // Create Score column
         const tdTestScore = document.createElement("td");
-        tdTestScore.innerHTML = test.score || "N/A";  // If no score, show "N/A"
+        tdTestScore.innerHTML = test.score || "N/A";  
         tr.appendChild(tdTestScore);
 
-        // Calculate the count of correct answers (assuming "choosedAnswer" contains the answers)
-        const correctAnswersCount = test.choosedAnswer ? test.choosedAnswer.filter(ans => ans.correct).length : 0;
-
-        // Create Correct Answers column
         const tdTestCorrectAns = document.createElement("td");
-        tdTestCorrectAns.innerHTML = correctAnswersCount || "N/A";  // Display the count of correct answers
+        tdTestCorrectAns.innerHTML = test.correctAnswersCount || "N/A"; 
         tr.appendChild(tdTestCorrectAns);
 
-        // Create View Test link column (you can add functionality to view test details if required)
         const tdViewTest = document.createElement("td");
         tdViewTest.innerHTML = `<a href="#" onclick="viewTestHistory(${index}, ${idx})">View Test</a>`;
         tr.appendChild(tdViewTest);
 
-        // Append the row to the table body
         userTestDetailsMain.appendChild(tr);
     });
 }
 
-// Optional: Implement the function to view detailed test history (if needed)
-// function viewTestHistory(userIndex, testIndex) {
-
-
-//     // Fetch userScores and users data from localStorage
-//     let users = JSON.parse(localStorage.getItem("users")) || [];
-//     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
-
-//     let user = users[userIndex];
-//     let test = userScores.filter(scoreEntry => scoreEntry.testUserEmail === user.email)[testIndex];
-
-//     if (!test) {
-//         alert("Test not found.");
-//         return;
-//     }
-
-//     console.log("Test Details: ", test);
-//     // You can display detailed test data here, e.g., show a modal or redirect to another page for more details
-// }
-
-
-// function viewTestHistory(userEmail, testIndex) {
-//     // Fetch userScores from localStorage
-//     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
-    
-//     // Find the user based on the provided email
-//     let user = userScores.find(u => u.testUserEmail === userEmail);
-    
-//     if (!user) {
-//         console.log("User not found.");
-//         return;
-//     }
-
-//     // Get the specific test based on the index
-//     let test = user.selectedQuiz[testIndex];
-
-//     if (!test) {
-//         console.log("Test not found.");
-//         return;
-//     }
-
-//     // Display the test details (example)
-//     console.log("Test Details: ", test);
-    
-//     // You can populate a section in your HTML to display the test details
-//     // Example: display the test date, score, and correct answers
-//     let testDetailsDiv = document.getElementById("testDetailsDiv");
-//     testDetailsDiv.innerHTML = `
-//         <h3>Test Details for ${test.date}</h3>
-//         <p>Score: ${test.score || "N/A"}</p>
-//         <p>Correct Answers: ${test.choosedAnswer ? test.choosedAnswer.filter(ans => ans.correct).length : 0}</p>
-//     `;
-// }
-
-
-// function userHistory(index) {
-//     // Fetch userScores from localStorage
-//     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
-    
-//     // Get the specific user based on email ID
-//     let user = userScores.find(u => u.testUserEmail === userScores[index].testUserEmail); 
-
-//     if (!user) {
-//         console.log("User not found.");
-//         return;
-//     }
-
-//     // Get references to the DOM elements where you want to display the user data
-//     let userTestDetailsMain = document.getElementById("userTestDetailsMain");
-//     let userHeading = document.getElementById("userHeading");
-//     let testDetailsDiv = document.getElementById("testDetailsDiv");
-
-//     testDetailsDiv.style.display = "block"; // Make the test details div visible
-
-//     // Set the user heading with the user's name and email
-//     userHeading.innerHTML = `${user.testUserName} | ${user.testUserEmail}`;
-
-//     // Clear the table body before populating
-//     userTestDetailsMain.innerHTML = "";
-
-//     // Check if the user has any tests in selectedQuiz
-//     if (!user.selectedQuiz || user.selectedQuiz.length === 0) {
-//         const noTestsMessage = document.createElement("tr");
-//         const tdNoTests = document.createElement("td");
-//         tdNoTests.colSpan = 5; // Span across all columns
-//         tdNoTests.innerHTML = "No tests found for this user.";
-//         noTestsMessage.appendChild(tdNoTests);
-//         userTestDetailsMain.appendChild(noTestsMessage);
-//         return;
-//     }
-
-//     // Loop through the user's selectedQuiz and create a row for each test
-//     user.selectedQuiz.forEach((test, idx) => {
-//         const tr = document.createElement("tr");
-
-//         // Create Test No. column (1-based index)
-//         const tdTestNo = document.createElement("td");
-//         tdTestNo.innerHTML = idx + 1;  // Display test number (1-based index)
-//         tr.appendChild(tdTestNo);
-
-//         // Create Test Date column
-//         const tdTestDate = document.createElement("td");
-//         tdTestDate.innerHTML = test.date || "N/A";  // If no date, show "N/A"
-//         tr.appendChild(tdTestDate);
-
-//         // Create Score column (from test.score)
-//         const tdTestScore = document.createElement("td");
-//         tdTestScore.innerHTML = test.score || "N/A";  // If no score, show "N/A"
-//         tr.appendChild(tdTestScore);
-
-//         // Calculate Count of Correct Answers
-//         const correctAnswersCount = test.choosedAnswer ? test.choosedAnswer.filter(ans => ans.correct).length : 0;
-
-//         // Create Count of Correct Answers column
-//         const tdTestCorrectAns = document.createElement("td");
-//         tdTestCorrectAns.innerHTML = correctAnswersCount || "N/A";  // Display the count of correct answers
-//         tr.appendChild(tdTestCorrectAns);
-
-//         // Create View Test link column
-//         const tdViewTest = document.createElement("td");
-//         tdViewTest.innerHTML = `<a href="#" onclick="viewTestHistory(${user.testUserEmail}, ${idx})">View Test</a>`;  // Pass user email and test index to viewTestHistory
-//         tr.appendChild(tdViewTest);
-
-//         // Append the row to the table body
-//         userTestDetailsMain.appendChild(tr);
-//     });
-// }
-
-
 function viewTestHistory(userIndex, testIndex) {
+    console.log("hii");
     // Fetch users and userScores from localStorage
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
@@ -538,20 +393,7 @@ function viewTestHistory(userIndex, testIndex) {
 }
 
 function closeTable() {
-    // Hide the test details section when the close button is clicked
-    let testDetailsDiv = document.getElementById("testDetails");
-    testDetailsDiv.style.display = "none";
-}
-
-
-
-function closeTable() {
     document.getElementById("testDetailsDiv").style.display = "none";
-}
-
-function viewTestHistory(index) {
-    console.log("hii");
-
 }
 
 // Attach input event listeners to each option input field to update the dropdown dynamically

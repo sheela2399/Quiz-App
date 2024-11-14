@@ -457,7 +457,6 @@ const optionElement = document.getElementById("options");
 const nextButton = document.getElementById("nextquestion");
 const previousButton = document.getElementById("previousquestion");
 const displayScore = document.getElementById("displayScore");
-let quizStartTime;
 
 // Fetch the quiz questions from localStorage
 const fetchQuize = (localStorage.getItem("quizQuestions"));
@@ -478,9 +477,11 @@ for (let i = 0; i < totalQuestions; i++) {
     randomQuestion.push(quizQuestions[randomIndex]);
 }
 
-// function to start quiz that will update count and recort start time..
+let quizStartTime; 
+
 function startQuiz() {
-  let quizStartTime = new Date();
+    quizStartTime = new Date(); // Initialize at quiz start
+    console.log(`quiz start at ${quizStartTime}`);
 }
 
 // Function to display a question
@@ -503,7 +504,7 @@ function displayQuestion() {
         // Attach event listeners for option selection
         attachOptionSelector();
 
-        // Show previously selected answer if available
+        // Show previously selected answer 
         showSelectedAnswer();
 
         // Handle Next/Previous buttons display..
@@ -594,8 +595,8 @@ function updateScore() {
     score = randomQuestion.reduce((acc, question) => {
         return acc + (question.choosedAnswer === question.rightAns ? 2 : 0);
     }, 0);
-    if(question.choosedAnswer === question.rightAns){
-        correctAnswers ++;
+    if (question.choosedAnswer === question.rightAns) {
+        correctAnswers++;
     }
 }
 
@@ -610,21 +611,24 @@ function previousQuestion() {
 
 
 // Function to submit the quiz and calculate the score
-
 function submitQuiz() {
     const quizEndTime = new Date();
-    const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime);
-    let confirmAlert = confirm("Are you sure want to submit the quiz?");
+    const timeTaken = calculateTimeTaken(quizStartTime, quizEndTime); // Now this will have access to quizStartTime
+
+    let confirmAlert = confirm("Are you sure you want to submit the quiz?");
 
     if (confirmAlert) {
         updateScore();
-        // let userLogedIn = JSON.parse(localStorage.getItem('isLoggedin'));
-        // let testUser = userLogedIn;
+
+        const correctAnswersCount = randomQuestion.filter(q => q.choosedAnswer === q.rightAns).length;
 
         const userScore = {
             testUserName: testUser.fullName,
             testUserEmail: testUser.email,
             score: score,
+            date: quizEndTime.toLocaleDateString(),
+            timeTaken: timeTaken,
+            correctAnswersCount: correctAnswersCount,
             selectedQuiz: randomQuestion,
         };
 
@@ -633,9 +637,11 @@ function submitQuiz() {
 
         localStorage.setItem('userScores', JSON.stringify(storedScores));
 
-        console.log(score)
+        console.log(score);
         window.location.href = "leaderboard.html";
-    }}
+    }
+}
+
 
 // Function to calculate time taken
 function calculateTimeTaken(startTime, endTime) {
@@ -644,7 +650,6 @@ function calculateTimeTaken(startTime, endTime) {
     const seconds = timeDiff % 60;
     return `${minutes} minutes and ${seconds} seconds`;
 }
-
 
 // Function to show top 6 leaderboard
 function showLeaderboard() {
