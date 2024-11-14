@@ -54,6 +54,7 @@ function questiontable(quizQuestions) {
 // functions for add new question part..
 function openForm() {
     document.getElementById("addQuesForm").style.display = "block";
+    document.getElementById('right-part-div').classList.add('blur');
 }
 
 function closeForm() {
@@ -64,6 +65,7 @@ function closeForm() {
     document.getElementById('Option3').value = "";
     document.getElementById('Option4').value = "";
     document.getElementById('correctOption').value = "";
+    document.getElementById('right-part-div').classList.remove('blur');
 }
 
 function addQuestion(event) {
@@ -154,6 +156,7 @@ function viewMCQ(index) {
         <p><strong>Correct Answer:</strong> ${question.rightAns}</p> 
         `;
         viewDiv.style.display = "block";
+        document.getElementById('right-part-div').classList.add('blur');
 
     } else {
         alert("Question not found.");
@@ -164,6 +167,7 @@ function closeView() {
     let viewDiv = document.querySelector('.viewMcq');
     viewDiv.innerHTML = "";
     viewDiv.style.display = "none";
+    document.getElementById('right-part-div').classList.remove('blur');
 }
 
 // function to editMCQ...
@@ -185,6 +189,8 @@ function editMCQ(index) {
         editIndex = index;
         openForm();
         updateCorrectOptionDropdown();
+        document.getElementById('right-part-div').classList.add('blur');
+
     } else {
         alert("Question not found.");
     }
@@ -219,7 +225,7 @@ function resetSerialNumbers() {
 
 //  ************************* Quiz-Main-Page ends here ***************************
 
-// ************************** User Table Display code starts here **********************88888
+// ************************** User Table Display code starts here ****************
 
 // Function to display users in the user table-- userlist.html
 function displayUserList() {
@@ -282,7 +288,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function for userhistory table...
 function userHistory(index) {
     let testDetailsDiv = document.getElementById("testDetailsDiv");
+    let userTableMain = document.getElementById("user-table-main");
     testDetailsDiv.style.display = "block";
+    userTableMain.classList.add("blur");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
@@ -311,19 +319,19 @@ function userHistory(index) {
         const tr = document.createElement("tr");
 
         const tdTestNo = document.createElement("td");
-        tdTestNo.innerHTML = idx + 1;  
+        tdTestNo.innerHTML = idx + 1;
         tr.appendChild(tdTestNo);
 
         const tdTestDate = document.createElement("td");
-        tdTestDate.innerHTML = test.date || "N/A"; 
+        tdTestDate.innerHTML = test.date || "N/A";
         tr.appendChild(tdTestDate);
 
         const tdTestScore = document.createElement("td");
-        tdTestScore.innerHTML = test.score || "N/A";  
+        tdTestScore.innerHTML = test.score || "N/A";
         tr.appendChild(tdTestScore);
 
         const tdTestCorrectAns = document.createElement("td");
-        tdTestCorrectAns.innerHTML = test.correctAnswersCount || "N/A"; 
+        tdTestCorrectAns.innerHTML = test.correctAnswersCount || "N/A";
         tr.appendChild(tdTestCorrectAns);
 
         const tdViewTest = document.createElement("td");
@@ -334,9 +342,15 @@ function userHistory(index) {
     });
 }
 
+function closeUserTable() {
+    document.getElementById("testDetailsDiv").style.display = "none";
+    document.getElementById("user-table-main").classList.remove("blur");
+}
+
+// function to display user's individual test details.....
 function viewTestHistory(userIndex, testIndex) {
-    console.log("hii");
-    // Fetch users and userScores from localStorage
+    document.getElementById("testDetailsDiv").classList.add("blur")
+
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
@@ -349,52 +363,61 @@ function viewTestHistory(userIndex, testIndex) {
         return;
     }
 
-    // Get the testDetails section and make it visible
     let testDetails = document.getElementById("testDetails");
     testDetails.style.display = "block";
 
-    // Set the user heading (name and email)
-    let userHeading = document.getElementById("userHeading");
-    userHeading.innerHTML = `${user.fullName} | ${user.email}`;
+    let userNameHeading = document.getElementById("userNameHeading");
+    userNameHeading.innerHTML = `${user.fullName} | ${user.email}`;
 
     // Set the test details: test number, score, date, and time
-    document.getElementById("test-number").innerHTML = `Test #${testIndex + 1}`;
+    document.getElementById("test-number").innerHTML = `Test No.${testIndex + 1}`;
     document.getElementById("test-score").innerHTML = `Score: ${test.score || "N/A"}`;
     document.getElementById("test-date").innerHTML = `Date: ${test.date || "N/A"}`;
     document.getElementById("test-time").innerHTML = `Time: ${test.time || "N/A"}`;
 
-    // Get the div to display the questions and answers
     let userTestData = document.getElementById("user-test-data");
-    userTestData.innerHTML = ""; // Clear any previous content
+    userTestData.innerHTML = "";
 
-    // Loop through the test questions and display each question with the correct and chosen answer
-    test.choosedAnswer.forEach((answer, idx) => {
+    // Loop to display all question, options, right ans, choosed ans
+    test.selectedQuiz.forEach((question, idx) => {
         const questionDiv = document.createElement("div");
         questionDiv.classList.add("question-detail");
 
-        // Create the question text
-        const questionText = document.createElement("p");
-        questionText.innerHTML = `<strong>Question ${idx + 1}:</strong> ${answer.question || "N/A"}`;
+        const questionText = document.createElement("h4");
+        questionText.innerHTML = `Question ${idx + 1}: ${question.question || "N/A"}`;
         questionDiv.appendChild(questionText);
 
-        // Create the correct answer text
+        if (question.options) {
+            const optionsList = document.createElement("ul");
+            optionsList.classList.add("options-list");
+
+            question.options.forEach((option, optIdx) => {
+                const optionItem = document.createElement("li");
+                optionItem.innerHTML = `${optIdx + 1}.  ${option.value}`;
+
+                optionsList.appendChild(optionItem);
+            });
+            questionDiv.appendChild(optionsList);
+        }
+
         const correctAnswerText = document.createElement("p");
-        correctAnswerText.innerHTML = `<strong>Correct Answer:</strong> ${answer.correctAnswer || "N/A"}`;
+        correctAnswerText.innerHTML = `<strong>Correct Answer:</strong> ${question.rightAns || "N/A"}`;
         questionDiv.appendChild(correctAnswerText);
 
-        // Create the user's chosen answer text
         const chosenAnswerText = document.createElement("p");
-        chosenAnswerText.innerHTML = `<strong>Your Answer:</strong> ${answer.chosenAnswer || "N/A"}`;
+        chosenAnswerText.innerHTML = `<strong>Choosed Answer:</strong> ${question.choosedAnswer || "N/A"}`;
         questionDiv.appendChild(chosenAnswerText);
 
-        // Append the question details to the main user-test-data section
         userTestData.appendChild(questionDiv);
     });
 }
 
-function closeTable() {
-    document.getElementById("testDetailsDiv").style.display = "none";
+function closeHistoryTable() {
+    document.getElementById("testDetailsDiv").classList.remove("blur");
+    document.getElementById("testDetails").style.display = "none";
 }
+
+// ***********************************User Table part code ends here**************************************
 
 // Attach input event listeners to each option input field to update the dropdown dynamically
 ['Option1', 'Option2', 'Option3', 'Option4'].forEach(id => {

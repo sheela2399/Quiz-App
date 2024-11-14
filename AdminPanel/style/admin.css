@@ -1,9 +1,24 @@
 /* admin panel start*/
 /******************************************************* admin home page starts...**************************************************/
-.main-div {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   height: 100vh;
-  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-div {
   background-color: #f1e1a6;
+  overflow: auto;
+  min-height: 100vh;
+}
+
+button{
+  cursor: pointer;
 }
 
 .left-part {
@@ -88,8 +103,6 @@ td>i {
   cursor: pointer;
 }
 
-*/
-
 /********************************************************** add Question form start ******************************************/
 .addQues {
   display: flex;
@@ -110,7 +123,8 @@ td>i {
 
 .form-container {
   width: 500px;
-  padding: 10px;
+  gap:1rem;
+  padding: 15px;
   background-color: white;
 }
 
@@ -169,17 +183,26 @@ select {
   background-color: #ffe8ad;
   /* border: 1px solid #ddd; */
   position: relative;
-  top: -450px;
+  top: -650px;
 }
 
 .viewMcq button {
   border: none;
-  background-color: #e0bb5c;
+  background-color: #ffe8ad;
   font-weight: 500;
   font-size: larger;
 }
 
+.viewMcq p,ul{
+  margin: 5px;
+}
+
 /* userTable part */
+.blur {
+  filter: blur(5px);
+  transition: filter 0.1s;
+}
+
 #user-table a {
   cursor: pointer;
   color: blue;
@@ -197,28 +220,84 @@ table {
   border-collapse: collapse;
 }
 
-/* user history page */
-#testDetailsDiv {
+/* user history part */
+#testDetailsDiv,
+#testDetails {
   width: 500px;
   height: auto;
   padding: 30px;
-  position: relative;
-  top: -500px;
+  position: absolute;
+  top: 100px;
   margin: 0 auto;
   background-color: #ffe8ad;
   border-radius: 10px;
-
 }
 
-#testDetailsDiv button {
+#testDetailsDiv button,
+#testDetails button {
   border: none;
   font-weight: 500;
   font-size: larger;
   background-color: #ffe8ad;
-  /* filter:blur(4px); */
 }
 
 #testDetailsDiv a {
   color: blue;
   cursor: pointer;
+}
+
+/* user individual test part */
+#testDetails {
+  width:700px;
+  top: 100px;
+  background-color:antiquewhite;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#testDetails button {
+  background-color: #f1e1a6;
+  /* background-color: aliceblue; */
+  margin-right: 10px;
+}
+
+#testDetails>.userHeading{
+  padding: 5px;
+  background-color: #f1e1a6;
+  width: 100%;
+}
+
+#testDetails #userNameHeading{
+margin-bottom: 10px;
+}
+
+.question-detail {
+  margin-bottom: 20px; 
+  padding-bottom: 10px;
+}
+
+.question-detail h4{
+  margin-bottom: 5px;
+}
+
+.options-list {
+  list-style-type:disc; 
+  margin-left: 20px;
+  padding-left: 10px;
+}
+
+.options-list li {
+  margin-bottom: 10px; 
+}
+
+@media (max-width: 768px) {
+  #testDetails {
+    width: 90%;
+    padding: 20px;
+  }
+  #testDetailsDiv {
+    width: 90%;
+    padding: 20px;
+  }
 }

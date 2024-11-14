@@ -589,7 +589,6 @@ function nextQuestion() {
     }
 }
 
-
 let correctAnswers = 0;
 function updateScore() {
     score = randomQuestion.reduce((acc, question) => {
@@ -608,7 +607,6 @@ function previousQuestion() {
         displayQuestion();
     }
 }
-
 
 // Function to submit the quiz and calculate the score
 function submitQuiz() {
@@ -641,7 +639,6 @@ function submitQuiz() {
         window.location.href = "leaderboard.html";
     }
 }
-
 
 // Function to calculate time taken
 function calculateTimeTaken(startTime, endTime) {

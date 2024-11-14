@@ -57,7 +57,8 @@
                 </li>
             </ul>
         </div>
-        <div class="right-part dis-col-center">
+        <!-- user list Part -->
+        <div class="right-part dis-col-center" id="right-part-div">
             <table class="user-table" id="user-table-main">
                 <thead>
                     <tr>
@@ -73,47 +74,49 @@
                     <!-- user table content -->
                 </tbody>
             </table>
-        </div>
-    </div>
+            <!-- user History part -->
+            <div id="testDetailsDiv" style="display:none">
+                <div class=" userHeading dis-row-between">
+                    <div id="userHeading"></div>
+                    <button onclick="closeUserTable()"> X </button>
+                </div>
+                <table class="testDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Test No.</th>
+                            <th>Test date</th>
+                            <th>Score</th>
+                            <th>Correct Ans</th>
+                            <th>View Test</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTestDetailsMain">
 
-    <div id="testDetailsDiv" style="display:none">
-        <div class=" userHeading dis-row-between">
-            <div id="userHeading"></div>
-            <button onclick="closeTable()"> X </button>
-         </div>
-        <table class="testDetailsTable">
-            <thead>
-                <tr>
-                    <th>Test No.</th>
-                    <th>Test date</th>
-                    <th>Score</th>
-                    <th>Correct Ans</th>
-                    <th>View Test</th>
-                </tr>
-            </thead>
-            <tbody id="userTestDetailsMain">
-
-            </tbody>
-        </table>
-    </div> 
-    
-    <div id="testDetails" style="display:none" >
-        <div class="userHeading dis-row-between">
-            <h2 id="userHeading"></h2>
-            <button onclick="closeTable()"> X </button>
-        </div>
-        <div class="users-test-section">
-            <div class="users-test-data dis-row-around">
-              <span id="test-number"></span>
-              <span id="test-score"></span>
-              <span id="test-date"></span>
-              <span id="test-time"></span>
+                    </tbody>
+                </table>
             </div>
-            <div class="user-test" id="user-test-data"></div>
-          </div>
-    
-    <script src="/index.js"></script>
-    <script src="/AdminPanel/script/admin.js"></script>
+
+            <!-- user individual test details part -->
+            <div id="testDetails" style="display:none">
+                <div class="userHeading dis-row-between">
+                    <h2 id="userNameHeading"></h2>
+                    <button onclick="closeHistoryTable()"> X </button>
+                </div>
+                <div class="users-test-section">
+                    <h3 class="users-test-data dis-row-around">
+                        <span id="test-number"></span>
+                        <span id="test-score"></span>
+                        <span id="test-date"></span>
+                        <span id="test-time"></span>
+                    </h3>
+                    <br>
+                    <div class="user-test" id="user-test-data"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/index.js"></script>
+        <script src="/AdminPanel/script/admin.js"></script>
 
 </body>
 
