@@ -94,6 +94,14 @@ function validateLogin() {
     let invalidMsgPassword = document.getElementById("invalid-password");
     let invalidMsgEmail = document.getElementById("invalid-email");
 
+    if (email === "admin@gmail.com" && password === "Admin@123") {
+        console.log("Admin Login Successfull");
+        window.location.assign("/AdminPanel/admin.html");
+        adminLoggedIn.push({ fullName: "Admin", email: email, password: password });
+        localStorage.setItem("adminLoggedIn", JSON.stringify(adminLoggedIn));
+        return;
+    }
+
     // Retrieve stored user data from local storage
     const storedUserData = JSON.parse(localStorage.getItem('users')) || [];
     console.log(storedUserData)
@@ -101,6 +109,8 @@ function validateLogin() {
     // Check if the user exists and the password matches
     const user = storedUserData.find(user => user.email === email);
     console.log(user)
+
+
 
     if (email == "") {
         invalidMsgEmail.innerHTML = "Please enter your email"
@@ -115,13 +125,7 @@ function validateLogin() {
         return;
     }
 
-    if (email === "admin@gmail.com" && password === "Admin@123") {
-        console.log("Admin Login Successfull");
-        window.location.assign("/AdminPanel/admin.html");
-        adminLoggedIn.push({ fullName: "Admin", email: email, password: password });
-        localStorage.setItem("adminLoggedIn", JSON.stringify(adminLoggedIn));
-        return;
-    }
+    
 
     else if (user.password !== password) {
         invalidMsgPassword.innerHTML = "Incorrect password";

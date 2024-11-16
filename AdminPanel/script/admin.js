@@ -1,3 +1,35 @@
+//Function for hamburger menu..
+function toggleMenu() {
+    
+    const body = document.body;
+
+    if (body.classList.contains('burger-deactivate')) {
+        body.classList.remove('burger-deactivate');
+        body.classList.add('burger-activate');
+    } else {
+        body.classList.remove('burger-activate');
+        body.classList.add('burger-deactivate');
+    }
+}
+
+// event listener for active class....
+window.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('#menu a');
+    // for currnt path
+    const currentPage = window.location.pathname; 
+
+    // Loop through each link and add the 'active' class if it matches the current page
+    links.forEach(link => {
+        // Get the href attribute from each <a> tag
+        const linkHref = link.getAttribute('href');
+
+        // If the href matches the current page path, add 'active' class
+        if (linkHref === currentPage || currentPage.includes(linkHref)) {
+            link.classList.add('active');
+        }
+    });
+});
+
 // function to handle logout Alert
 
 let logoutDivCon = document.getElementById("confirmLogoutOptionDiv");
@@ -55,6 +87,8 @@ function questiontable(quizQuestions) {
 function openForm() {
     document.getElementById("addQuesForm").style.display = "block";
     document.getElementById('right-part-div').classList.add('blur');
+
+    disableIcons();  
 }
 
 function closeForm() {
@@ -66,6 +100,25 @@ function closeForm() {
     document.getElementById('Option4').value = "";
     document.getElementById('correctOption').value = "";
     document.getElementById('right-part-div').classList.remove('blur');
+
+        enableIcons();
+}
+
+function disableIcons(){
+    let actionIcons = document.querySelectorAll(".fa-eye, .fa-pencil, .fa-trash");
+    actionIcons.forEach(icon => {
+        icon.style.pointerEvents = "none"; 
+        icon.style.opacity = "0.5"; // Make icons visually appear disabled
+    });
+}
+
+function enableIcons(){
+    let actionIcons = document.querySelectorAll(".fa-eye, .fa-pencil, .fa-trash");
+    actionIcons.forEach(icon => {
+        icon.style.pointerEvents = "auto"; 
+        icon.style.opacity = "1"; // Reset opacity to default
+    });
+
 }
 
 function addQuestion(event) {
@@ -108,6 +161,9 @@ function addQuestion(event) {
     document.getElementById('Option3').value = "";
     document.getElementById('Option4').value = "";
     document.getElementById('correctOption').value = "";
+
+    closeForm();
+
 }
 
 // function for dynamic correct option dropdown..
@@ -157,6 +213,7 @@ function viewMCQ(index) {
         `;
         viewDiv.style.display = "block";
         document.getElementById('right-part-div').classList.add('blur');
+        disableIcons();
 
     } else {
         alert("Question not found.");
@@ -168,6 +225,7 @@ function closeView() {
     viewDiv.innerHTML = "";
     viewDiv.style.display = "none";
     document.getElementById('right-part-div').classList.remove('blur');
+    enableIcons();
 }
 
 // function to editMCQ...
@@ -306,7 +364,7 @@ function userHistory(index) {
 
     if (userTestScores.length === 0) {
         alert("This user has not taken any tests yet.");
-        return;
+        return ;
     }
 
     let userHeading = document.getElementById("userHeading");
@@ -349,7 +407,9 @@ function closeUserTable() {
 
 // function to display user's individual test details.....
 function viewTestHistory(userIndex, testIndex) {
-    document.getElementById("testDetailsDiv").classList.add("blur")
+    
+    document.getElementById("testDetailsDiv").classList.add("blur");
+    document.getElementById("user-table-main").classList.add("blur");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let userScores = JSON.parse(localStorage.getItem("userScores")) || [];
@@ -413,9 +473,13 @@ function viewTestHistory(userIndex, testIndex) {
 }
 
 function closeHistoryTable() {
+    // Remove the blur effect from the background and hide the test details view
     document.getElementById("testDetailsDiv").classList.remove("blur");
+    document.getElementById("user-table-main").classList.remove("blur");
+
     document.getElementById("testDetails").style.display = "none";
 }
+
 
 // ***********************************User Table part code ends here**************************************
 
