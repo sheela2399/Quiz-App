@@ -13,18 +13,18 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<<body class="burger-deactivate">
+<body class="burger-deactivate">
 
     <header>
         <nav class="quiz-start-nav dis-row-between">
             <div class="logo dis-row-around">
-                <a href="https://techpaathshala.com/">
-                    <img src="assets/techpaathshala_logo.png" alt="logo">
-                </a>
                 <div class="burger-menu dis-col-center" id="burger-menu" onclick="toggleMenu()">
                     <i class="fa-solid fa-bars"></i>
                 </div>
-            </div>
+                <a href="https://techpaathshala.com/">
+                    <img src="assets/techpaathshala_logo.png" alt="logo">
+                </a>
+                </div>
             
             <div class="user-info">
                 <span id="userName" class="user-name">Admin</span>
@@ -62,7 +62,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="right-part" id="right-part-div">
+            <div class="right-part dis-row-center" id="right-part-div">
                 <div>
                 <h2>MCQ Question Lists</h2>
                 <button class="btn-primary open-button" onclick="openForm()">Add New Questions</button>

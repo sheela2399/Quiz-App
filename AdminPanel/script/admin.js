@@ -54,7 +54,7 @@ function logoutAdmin() {
 //  ***************** quiz main page started ************************************
 localStorage.getItem(JSON.stringify("quizQuestions")) || []
 
-function questiontable(quizQuestions) {
+function questionTable(quizQuestions) {
     let quizTable = document.getElementById("question-table");
     console.log(quizTable);
     if (quizTable) {
@@ -152,7 +152,7 @@ function addQuestion(event) {
     localStorage.setItem("quizQuestions", JSON.stringify(quizQuestions));
     // console.log("after adding question")
     // console.log(quizQuestions);
-    questiontable(quizQuestions);
+    questionTable(quizQuestions);
 
     // clearing input fields..
     document.getElementById('question').value = "";
@@ -163,7 +163,6 @@ function addQuestion(event) {
     document.getElementById('correctOption').value = "";
 
     closeForm();
-
 }
 
 // function for dynamic correct option dropdown..
@@ -257,7 +256,7 @@ function editMCQ(index) {
 // Ensure that the table loads correctly
 document.addEventListener("DOMContentLoaded", () => {
     const quizQuestions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
-    questiontable(quizQuestions);
+    questionTable(quizQuestions);
 });
 
 // Function to deleteMCQ
@@ -320,14 +319,19 @@ function displayUserList() {
 
             const userScoresData = userScores.filter(scoreEntry => scoreEntry.testUserEmail === user.email);
             const testsGiven = userScoresData.length;
-            const totalScore = userScoresData.reduce((acc, curr) => acc + (curr.score || 0), 0);
+            
+            let latestScore ;
+            if (testsGiven > 0) {
+                userScoresData.sort((a, b) => new Date(b.date) - new Date(a.date)); //descending order
+                latestScore = userScoresData[0].score || "N/A";
+            }
 
             const tdTestsGiven = document.createElement("td");
             tdTestsGiven.innerHTML = testsGiven;
             tr.appendChild(tdTestsGiven);
 
             const tdScores = document.createElement("td");
-            tdScores.textContent = totalScore || "N/A";
+            tdScores.textContent = latestScore || "N/A";
             tr.appendChild(tdScores);
 
             const tdAction = document.createElement("td");
